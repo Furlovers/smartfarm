@@ -67,6 +67,9 @@ export default function MapPage() {
                     {"Data da última leitura: "} <a className=' text-white ml-2 bg-blue-950 px-2 py-1 rounded-sm'>{userData.sensors[0].readings[0].data.toLocaleDateString('pt-BR', options)}</a>
                 </div>
                 <div className="p-2  w-full bg-white rounded-md flex flex-col gap-2">
+                    <div className='w-full h-8 bg-blue-950 text-white rounded-sm flex flex-row items-center justify-center text-md hover:bg-white hover:text-blue-950 font-bold hover:border-blue-950 hover:scale-101 transition-all duration-200 ease-in-out cursor-pointer hover:font-bold border-2 border-transparent'>
+                        Adicionar sensor
+                    </div>
                     
                 {userData.sensors.map((sensor, index) => {
                     return (
