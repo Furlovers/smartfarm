@@ -12,7 +12,7 @@ export const getAllUsers = async (req, res) => {
 
 export const getUserById = async (req, res) => {
   try {
-    const user = await userService.getUserById(req.params.id);
+    const user = await userService.getUserByUserId(req.params.id);
     if (!user) {
       return res.status(404).json({ message: 'Usuário não encontrado' });
     }
@@ -33,7 +33,7 @@ export const createUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
-    const updatedUser = await userService.updateUser(req.params.id, req.body);
+    const updatedUser = await userService.updateUserByUserId(req.params.id, req.body);
     if (!updatedUser) {
       return res.status(404).json({ message: 'Usuário não encontrado' });
     }
@@ -45,7 +45,7 @@ export const updateUser = async (req, res) => {
 
 export const deleteUser = async (req, res) => {
   try {
-    const deletedUser = await userService.deleteUser(req.params.id);
+    const deletedUser = await userService.deleteUserByUserId(req.params.id);
     if (!deletedUser) {
       return res.status(404).json({ message: 'Usuário não encontrado' });
     }
@@ -63,7 +63,7 @@ export const login = async (req, res) => {
     }
 
     const token = jwt.sign(
-      { id: user.id, email: user.email, role: user.role },
+      { id: user.userId, email: user.email, role: user.role },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );

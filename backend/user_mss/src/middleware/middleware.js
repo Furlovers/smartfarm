@@ -24,7 +24,7 @@
         return next(); 
       }
     
-      if (req.params.id !== id) {
+      if (req.params.id && req.params.id !== id) {
         return res.status(403).json({ message: 'Acesso negado' });
       }
     
