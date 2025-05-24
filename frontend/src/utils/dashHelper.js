@@ -53,7 +53,7 @@ const allReadings = processedData.flatMap(dailyData => {
     return allReadings
 }
 
-export const getAllReadingsAverage = (sensors, info, value) => {
+export const getAllReadingsAverage = (sensors, info) => {
     const allReadings = processListData(sensors, info);
     
      

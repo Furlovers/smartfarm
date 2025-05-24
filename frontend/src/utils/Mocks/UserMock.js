@@ -8,6 +8,7 @@ export const UserMock = {
         dateOfJoining: Date.now(),
         sensors: [{
             id: "1",
+            name: "Trigo",
             latitude: -23.6785, 
             longitude: -46.7039,
             readings: [
@@ -86,6 +87,7 @@ export const UserMock = {
         },
         {
             id: "2",
+            name: "Robson Calvetti",
             latitude: -23.6885, 
             longitude: -46.7139,
             readings: [{
@@ -161,6 +163,7 @@ export const UserMock = {
         },
         {
             id: "3",
+            name: "Edson Saraiva",
             latitude: -23.6685, 
             longitude: -46.6939,
             readings: [{
@@ -236,6 +239,7 @@ export const UserMock = {
         },
         {
             id: "4",
+            name: "Milho",
             latitude: -23.6585, 
             longitude: -46.6839,
             readings: [{

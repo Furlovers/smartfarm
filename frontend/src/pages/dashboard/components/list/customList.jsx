@@ -6,7 +6,7 @@ import { FaArrowTrendUp, FaArrowTrendDown } from "react-icons/fa6";
 
 export default function CustomList({ info }) {
 
-    const { userData, dashboardFilterInitialData, dashboardFilterFinalData } = useUser()
+    const { userData } = useUser()
     return (
         <>
         <div className='w-full h-1/9 bg-blue-950 rounded-t-md flex items-center justify-between px-2 text-white '>
