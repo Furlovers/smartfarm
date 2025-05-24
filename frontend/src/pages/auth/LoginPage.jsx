@@ -45,8 +45,7 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-center min-h-screen p-4 md:p-8">
-      {/* LADO ESQUERDO (IMAGEM) - Oculta em mobile */}
+    <div className="flex flex-col md:flex-row items-center justify-center h-screen p-4 md:p-8">
       <div className="hidden md:block md:h-full md:w-[40%] p-2">
         <div className="h-full w-full rounded-md">
           <img 
@@ -57,17 +56,15 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* LADO DIREITO (FORMULÁRIO) */}
       <div className="w-full md:w-1/2 p-2 flex flex-col items-start justify-between md:pl-12 py-4 md:py-8">
         {/* LOGO */}
         <div className="w-full flex justify-center md:justify-start mb-4 md:mb-0">
           <img src={logo} alt="SmartFarm Logo" className="h-16 md:h-20" />
         </div>
 
-        {/* FORMULÁRIO */}
         <div className="w-full flex flex-col items-center md:items-start justify-center mt-4 md:mt-0">
           {/* TOGGLE ENTRE LOGIN/CADASTRO */}
-          <div className="flex felx-row items-center justify-center w-full mb-6 md:mb-8 md:mt-16">
+          <div className="flex felx-row items-center justify-start   w-full mb-6 md:mb-8 md:mt-16">
             <div
               onClick={() => {
                 setIsLogin(true);
