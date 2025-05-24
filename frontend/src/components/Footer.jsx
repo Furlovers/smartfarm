@@ -28,6 +28,7 @@ export default function Footer() {
           </Link>
         </div>
         <div className="mt-12 mb-0 text-sm opacity-80">
+          2025 SmartFarm. Versão: 1.0.0
         </div>
       </div>
     </div>

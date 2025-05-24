@@ -7,10 +7,12 @@ import farmerIntermediary from "../../assets/farmerIntermediary.png";
 import farmerPremium from "../../assets/farmerPremium.png";
 import { timestampToDate } from "../../utils/formatters/date-formatters";
 import Button from "../../components/ui/Button.jsx";
+import { useUser } from "../../utils/contexts/UserContext.jsx";
 
 export default function ProfilePage() {
   const [userAvatar, setUserAvatar] = useState();
-
+  const {fetchUserData} = useUser()
+  
   const handleUserAvatar = () => {
     if (UserMock.role === "user-basic") {
       setUserAvatar(farmerBasic);
@@ -25,6 +27,8 @@ export default function ProfilePage() {
 
   useState(() => {
     handleUserAvatar();
+    fetchUserData()
+
   }, []);
 
   return (

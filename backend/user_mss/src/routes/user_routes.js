@@ -7,13 +7,13 @@ import {
   deleteUser,
   login
 } from '../controllers/user_controller.js';
-import { authenticateToken, authorizeUserOrAdmin } from '../middleware/user_middleware.js';
+import { authenticateToken, authorizeUserOrAdmin } from '../middleware/middleware.js';
 
 const router = express.Router();
 
 
 router.post('/login', login);
-router.post('/', createUser);
+router.post('/register', createUser);
 
 router.get('/', authenticateToken ,  getAllUsers);
 router.get('/:id', authenticateToken, authorizeUserOrAdmin, getUserById);
