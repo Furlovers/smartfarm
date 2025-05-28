@@ -27,7 +27,7 @@
       return next();
     }
 
-    const reading = await Reading.findById(readingId);
+    const reading = await Reading.findById({readingId: readingId});
 
     if (reading.sensorId.toString() !== sensorId) {
       return res.status(403).json({ message: 'Acesso negado: sensor pertence a outro usuário.' });

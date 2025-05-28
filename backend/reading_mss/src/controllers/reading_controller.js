@@ -24,7 +24,7 @@ export const getReadingById = async (req, res) => {
 export const createReading = async (req, res) => {
   try {
     const newReading = await readingService.createReading(req.body);
-    axios.post("http://localhost:3003/event", {
+    axios.post("http://localhost:3004/event", {
           type: "ReadingCreate",
           data: {
             reading_id: req.user_id,

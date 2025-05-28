@@ -29,10 +29,10 @@ export const createSensor = async (req, res) => {
       userId: req.user.id,
       createdAt: Date.now()
     });
-    axios.post("http://localhost:3003/event", {
+    axios.post("http://localhost:3004/event", {
       type: "SensorCreate",
       data: {
-        user_id: req.user_id,
+        user_id: req.user.id,
         sensor_id: newSensor.sensorId
       }
     })
@@ -60,6 +60,14 @@ export const deleteSensor = async (req, res) => {
     if (!deletedSensor) {
       return res.status(404).json({ message: 'Sensor não encontrado' });
     }
+
+    axios.post("http://localhost:3004/event", {
+      type: "SensorDelete",
+      data: {
+        user_id: req.user.id,
+        sensor_id: deletedSensor.sensorId
+      }
+    })
     res.status(204).send();
   } catch (err) {
     res.status(400).json({ message: `Erro ao excluir sensor com ID ${req.params.id}: ${err.message}` });

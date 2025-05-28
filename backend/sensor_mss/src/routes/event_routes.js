@@ -1,5 +1,5 @@
 import express from 'express';
-import { addReading } from '../services/sensor_service';
+import { addReading } from '../services/sensor_service.js';
 
 const router = express.Router();
 
@@ -11,7 +11,9 @@ const functions = {
 
 router.post('/', (req, res) => {
   const event = req.body
-  functions[event.type](event.data)
+  if(functions[event.type]){
+    functions[event.type](event.data)
+  }
   res.end()  
 });
 

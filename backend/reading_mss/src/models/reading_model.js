@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { v4 as uuidv4 } from 'uuid';
 
 const readingSchema = new mongoose.Schema({
   readingId: { type: String, default: uuidv4, unique: true },

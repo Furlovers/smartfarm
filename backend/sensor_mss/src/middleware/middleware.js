@@ -23,11 +23,13 @@
     const { id, role } = req.user;
     const sensorId = req.params.id;
 
+
     if (role === 'admin') {
       return next();
     }
 
-    const sensor = await Sensor.findById(sensorId);
+
+    const sensor = await Sensor.findOne({ sensorId: sensorId });
 
 
     if (sensor.userId.toString() !== id) {
