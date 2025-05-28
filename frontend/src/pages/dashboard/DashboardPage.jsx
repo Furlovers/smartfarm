@@ -2,16 +2,21 @@ import { Outlet } from "react-router-dom"
 import { FaThermometerHalf, FaSun, FaFlask, FaBatteryFull, FaMap } from "react-icons/fa"
 import DashSidebar from "./components/sidebar/dashSidebar"
 import { useUser } from "../../utils/contexts/UserContext"
-import { useEffect } from "react"
+import { use, useEffect } from "react"
+import { useSensor } from "../../utils/contexts/SensorContext"
 
 export default function DashboardPage() {
 
-    const {fetchUserData} = useUser()
+    const {fetchUserData, userData} = useUser()
+    const {fetchSensorData} = useSensor()
 
     useEffect(() => {
         fetchUserData()
     }, [])
 
+    useEffect(() => {   
+        fetchSensorData()
+    }, [userData])
 
     return (
     <div className="w-screen h-screen relative">

@@ -2,7 +2,9 @@ import Sensor from '../models/sensor_model.js';
 
 export const getAllSensors = async () => await Sensor.find();
 
-export const getSensorById = async (id) => await Sensor.findById(id);
+export const getSensorById = async (sensorId) => {
+  return await Sensor.findOne({ sensorId });
+}
 
 export const createSensor = async (data) => {
   const newSensor = new Sensor(data);
@@ -27,4 +29,7 @@ export const updateSensor = async (id, data) => {
   return updatedSensor;
 };
 
-export const deleteSensor = async (id) => await Sensor.findByIdAndDelete(id);
+export const deleteSensor = async (sensorId) => {
+  return await Sensor.findOneAndDelete({ sensorId: sensorId })
+}
+

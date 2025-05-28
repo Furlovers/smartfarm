@@ -1,8 +1,10 @@
-import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import "leaflet/dist/leaflet.css";
 import { useSidebar } from '../../utils/contexts/SidebarContext';
 import { useEffect } from 'react';
 import { useUser } from '../../utils/contexts/UserContext';
+import { useSensor } from '../../utils/contexts/SensorContext';
+import { useReadingList } from '../../utils/contexts/ReadingListContext';
 import { FaTemperatureHalf, FaSun, FaBatteryFull, FaFlask } from 'react-icons/fa6';
 import { useState } from 'react';
 import StyledInput from '../auth/components/styledInput.jsx'
