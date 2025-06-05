@@ -32,7 +32,7 @@ export const createReading = async (req, res) => {
       req.body,
       req.user.id
     );
-    axios.post(" https://smartfarm-event-bus-8f3176961794.herokuapp.com/event", {
+    axios.post("https://smartfarm-event-bus-8f3176961794.herokuapp.com/event", {
       type: "ReadingCreate",
       data: {
         reading_id: req.user.id,
