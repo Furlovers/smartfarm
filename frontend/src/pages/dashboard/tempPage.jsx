@@ -40,23 +40,20 @@ export default function TemperaturePage() {
         <CustomLineChart info="temp" />
 
         <div className='w-full h-100 rounded-md mb-2 flex flex-row gap-4'>
-          {/* Average info cards */}
           <div className='w-1/2 h-full mt-4 grid grid-cols-2 gap-4'>
             <div className='bg-white w-full h-min rounded-md'>
-              <AverageInfoCard info="lum" />
-            </div>
-            <div className='bg-white w-full h-min rounded-md'>
-              <AverageInfoCard info="ph" />
-            </div>
-            <div className='bg-white w-full h-full rounded-md'>
               <AverageInfoCard info="temp" />
             </div>
+            <div className='bg-white w-full h-min rounded-md'>
+              
+            </div>
             <div className='bg-white w-full h-full rounded-md'>
-              <AverageInfoCard info="batery" />
+              
+            </div>
+            <div className='bg-white w-full h-full rounded-md'>
+              
             </div>
           </div>
-
-          {/* Custom list */}
           <div className='bg-white w-1/2 h-104 mt-4 rounded-md'>
             <CustomList info="temp" />
           </div>
