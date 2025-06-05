@@ -21,7 +21,7 @@ export default function AverageInfoCard({ info }) {
           : ""}
       </div>
 
-      {/* ENVOLVENDO O GAUGE COM UMA DIV CENTRALIZADA */}
+      
       <div className="flex items-center justify-center w-full h-full">
         <PieWithNeedle average={average} info={info} />
       </div>
