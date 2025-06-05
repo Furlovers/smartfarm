@@ -1,38 +1,21 @@
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from "recharts";
+import {LineChart,Line,XAxis,YAxis,CartesianGrid,Tooltip,ResponsiveContainer} from "recharts";
+import {FaSun,FaFlask,FaThermometerHalf,FaBatteryFull} from "react-icons/fa";
 import { useUser } from "../../../../utils/contexts/UserContext";
-import {
-  FaMap,
-  FaSun,
-  FaFlask,
-  FaThermometerHalf,
-  FaBatteryFull,
-} from "react-icons/fa";
 import { processChartData } from "../../../../utils/dashHelper";
-import { useEffect } from "react";
 
 export default function CustomLineChart({ info }) {
-  const { userData, loading } = useUser();
+  const { userData } = useUser();
 
-  const chartData = processChartData(userData?.sensorList, info);
+  const chartData = processChartData(userData.sensorList, info);
+
+  console.log("Chart Data:", chartData);
 
   return (
-    <div
-      className="h-full w-full bg-white rounded-md"
-      style={{ paddingLeft: 0 }}
-    >
+    <div className="h-full w-full bg-white rounded-md shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
       <ResponsiveContainer
         width="99%"
         height="100%"
-        className={"pt-2 rounded-md"}
+        className="pt-2 rounded-md"
       >
         <LineChart
           data={chartData}
@@ -53,8 +36,7 @@ export default function CustomLineChart({ info }) {
           <YAxis tick={{ fontSize: 12 }} domain={["dataMin", "dataMax"]} />
           <Tooltip content={<CustomTooltip info={info} />} />
 
-          {
-          userData?.sensorList?.map((sensor, index) => {
+          {userData?.sensorList.map((sensor, index) => {
             const colors = [
               "#e64c6a",
               "#8884d8",
@@ -74,6 +56,7 @@ export default function CustomLineChart({ info }) {
                 strokeWidth={2}
                 activeDot={{ r: 6 }}
                 dot={{ r: 3 }}
+                connectNulls={true}  
                 isAnimationActive={false}
               />
             );
@@ -130,13 +113,7 @@ const CustomTooltip = ({ active, payload, label, info }) => {
       </div>
       <p className="font-bold text-white">
         <div className="flex items-center justify-between">
-          <div>
-            {localDate.toLocaleDateString("pt-BR", {
-              day: "2-digit",
-              month: "2-digit",
-              year: "numeric",
-            })}{" "}
-          </div>
+          <div>{localDate.toLocaleDateString("pt-BR")}</div>
           <div>
             {localDate.getHours().toString().padStart(2, "0")}:
             {localDate.getMinutes().toString().padStart(2, "0")}:
@@ -153,7 +130,7 @@ const CustomTooltip = ({ active, payload, label, info }) => {
           >
             <div className="flex flex-row items-center">
               <div
-                className="w-1 h-6 mr-2 rounded-full flex flex-row items-center"
+                className="w-1 h-6 mr-2 rounded-full"
                 style={{ backgroundColor: entry.color }}
               />
               <span className="text-sm font-medium text-white">
@@ -161,9 +138,9 @@ const CustomTooltip = ({ active, payload, label, info }) => {
               </span>
             </div>
             <span className="text-md font-semibold ml-1 text-white">
-              {entry.value}{" "}
+              {entry.value}
               {info === "temp"
-                ? "Â°C"
+                ? "°C"
                 : info === "batery" || info === "lum"
                 ? "%"
                 : ""}
