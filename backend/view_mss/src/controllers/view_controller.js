@@ -1,5 +1,13 @@
 import * as viewService from "../services/view_service.js";
 
+/*
+
+Este arquivo tem a finalidade de tratar as requisições vindas do frontend para o microsserviço de consultas.
+Arquiteturalmente, é a camada do backend mais próxima do frontend. Realiza a interpretação dos status codes,
+trata possíveis erros, e faz a chamada dos outros microsserviços necessários para atender a requisição.
+
+*/
+
 export const createUser = async (req, res) => {
   try {
     const newUser = await viewService.createUser(req.body);

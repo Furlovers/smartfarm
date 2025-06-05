@@ -1,6 +1,14 @@
 import * as readingService from "../services/reading_service.js";
 import axios from "axios";
 
+/*
+
+Este arquivo tem a finalidade de tratar as requisições vindas do frontend para o microsserviço de leituras.
+Arquiteturalmente, é a camada do backend mais próxima do frontend. Realiza a interpretação dos status codes,
+trata possíveis erros, e faz a chamada dos outros microsserviços necessários para atender a requisição.
+
+*/
+
 export const getAllReadings = async (req, res) => {
   try {
     const readings = await readingService.getAllReadings();
