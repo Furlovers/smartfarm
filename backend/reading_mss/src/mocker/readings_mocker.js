@@ -8,7 +8,7 @@ const SENSOR_IDS = [
 const AUTH_TOKEN =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk5NmZmMzZhLWY3ZmYtNGVlMy05ZjJmLThiMWE3MDVkYzdmYiIsImVtYWlsIjoiYWRtaW5AbWFpbC5jb20iLCJyb2xlIjoidXNlci1iYXNpYyIsImlhdCI6MTc0ODY5Mjc4NywiZXhwIjoxNzQ4Njk2Mzg3fQ.nufFS63sKTIiaONW9LwGTFJE8TqsRs8ujS2umZitfbY";
 
-const API_URL = "http://localhost:3002/readings";
+const API_URL = "https://smartfarm-reading-mss-ee062958e049.herokuapp.com/readings";
 const NUM_READINGS = 20;
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 

@@ -36,7 +36,7 @@ export const createSensor = async (req, res) => {
       },
       req.user.id
     );
-    axios.post("http://localhost:3004/event", {
+    axios.post(" https://smartfarm-event-bus-8f3176961794.herokuapp.com/event", {
       type: "SensorCreate",
       data: {
         user_id: req.user.id,
@@ -77,7 +77,7 @@ export const deleteSensor = async (req, res) => {
       return res.status(404).json({ message: "Sensor não encontrado" });
     }
 
-    axios.post("http://localhost:3004/event", {
+    axios.post(" https://smartfarm-event-bus-8f3176961794.herokuapp.com/event", {
       type: "SensorDelete",
       data: {
         user_id: req.user.id,
