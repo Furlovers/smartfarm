@@ -77,7 +77,7 @@ export default function CustomList({ info }) {
           const isPositive = diff >= 0;
 
           return (
-            <div key={index} className='w-full flex items-center justify-between p-1 flex-row border-b border-gray-300'>
+            <div key={index} className='w-full flex items-center justify-between p-1 flex-row border-b border-gray-300 hover:bg-gray-300 transition-colors duration-500'>
               <div className='flex items-center'>
                 <div className='border-2 border-blue-950 h-8 w-32 rounded-sm flex items-center justify-center mr-2 text-lg font-bold'>
                   {localDate.toLocaleDateString('pt-BR', {
