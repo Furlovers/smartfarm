@@ -82,6 +82,17 @@ export const getAllReadingsMax = (sensorList, info) => {
   return max.toFixed(2);
 };
 
+export const getAllReadingsMin = (sensorList, info) => {
+
+  const allReadings = processListData(sensorList, info);
+
+  if (!allReadings || allReadings.length === 0) return 0;
+
+  const min = Math.min(...allReadings.map(r => r.value).filter(v => typeof v === "number")) 
+  
+  return min.toFixed(2);
+};
+
 
 export const getDiferenceReadingVsAverage = (sensorList, info, value) => {
 
