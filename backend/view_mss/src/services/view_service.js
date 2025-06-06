@@ -1,6 +1,12 @@
 import View from "../models/view_model.js";
 import { v4 as uuidv4 } from "uuid";
 
+/*
+Neste arquivo são definidas de fato as funcionalidades do microsserviço de consulta. Consiste nas funções
+responsáveis por interagir diretamente com o banco de dados e com o barramento de eventos. Suas funções
+são utilizadas pelo arquivo `controller` deste microsserviço. 
+*/
+
 export const createUser = async (data) => {
   const defaultReading = {
     battery: 0,

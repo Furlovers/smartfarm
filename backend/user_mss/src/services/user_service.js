@@ -3,6 +3,12 @@ import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 
+/*
+Neste arquivo são definidas de fato as funcionalidades do microsserviço de usuário. Consiste nas funções
+responsáveis por interagir diretamente com o banco de dados e com o barramento de eventos. Suas funções
+são utilizadas pelo arquivo `controller` deste microsserviço. 
+*/
+
 export const getAllUsers = async () => await User.find();
 
 export const getUserByUserId = async (userId) => {
@@ -16,6 +22,7 @@ export const createUser = async (data) => {
       throw new Error("Email já registrado");
     }
 
+    // Criptografa a senha do usuário antes de armazenar no banco de dados
     const hashedPassword = bcrypt.hashSync(data.password, 10);
 
     const userData = {

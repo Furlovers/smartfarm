@@ -1,6 +1,12 @@
 import Sensor from "../models/sensor_model.js";
 import axios from "axios";
 
+/*
+Neste arquivo são definidas de fato as funcionalidades do microsserviço de sensores. Consiste nas funções
+responsáveis por interagir diretamente com o banco de dados e com o barramento de eventos. Suas funções
+são utilizadas pelo arquivo `controller` deste microsserviço. 
+*/
+
 export const getAllSensors = async () => await Sensor.find();
 
 export const getSensorById = async (sensorId) => {

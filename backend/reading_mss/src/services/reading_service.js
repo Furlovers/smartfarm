@@ -1,6 +1,12 @@
 import Reading from "../models/reading_model.js";
 import axios from "axios";
 
+/*
+Neste arquivo são definidas de fato as funcionalidades do microsserviço de leitura. Consiste nas funções
+responsáveis por interagir diretamente com o banco de dados e com o barramento de eventos. Suas funções
+são utilizadas pelo arquivo `controller` deste microsserviço. 
+*/
+
 export const getAllReadings = async () => await Reading.find();
 
 export const getReadingById = async (id) => await Reading.findById(id);
