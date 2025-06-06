@@ -1,4 +1,4 @@
-import { processListData, getDiferenceReadingVsAverage } from "../../../../utils/statistics";
+import { processListData, getDiferenceReadingVsAverage } from "../../../../utils/dashHelper.js";
 import { useUser } from "../../../../utils/contexts/UserContext";
 import { FaArrowTrendUp, FaArrowTrendDown } from "react-icons/fa6";
 
@@ -24,30 +24,30 @@ export default function CustomList({ info }) {
           const localDate = new Date(item.date);
           localDate.setMinutes(localDate.getMinutes() + localDate.getTimezoneOffset());
 
-          const diff = getDiferenceReadingVsAverage(userData.sensorList, userData.readings, info, item.sensorId, item.value);
+          const diff = getDiferenceReadingVsAverage(userData.sensorList, info, item.value);
           const isPositive = diff >= 0;
 
           return (
             <div key={index} className='w-full flex items-center justify-between p-1 flex-row'>
               <div className='flex items-center'>
-                <div className='border-2 border-blue-950 h-8 w-30 rounded-sm flex items-center justify-center mr-2 text-lg font-bold'>
+                <div className='border-2 border-blue-950 h-8 w-32 rounded-sm flex items-center justify-center mr-2 text-lg font-bold'>
                   {localDate.toLocaleDateString('pt-BR', {
                     day: '2-digit',
                     month: '2-digit',
                     year: 'numeric',
                   })}
                 </div>
-                <div className='mr-2 w-[40%] text-center ml-6'>
-                  Sensor #{item.sensorId}
+                <div className='mr-2 w-[full] text-center ml-6'>
+                  {item.sensorName}
                 </div>
               </div>
 
-              <div className="w-[40%] h-8 flex items-center justify-center font-bold text-md">
-                {item.value} {info === "lum" || info === "batery" ? "%" : info === "temp" ? "°C" : ""}
+              <div className="w-[full] h-8 flex items-center justify-center font-bold text-md">
+                {item.value === null ? "Sem valor" : item.value + (info === "lum" || info === "batery" ? "%" : info === "temp" ? "°C" : "")} 
               </div>
 
               <div
-                className={`p-2 rounded-md w-18 h-8 flex items-center gap-1 justify-center ${
+                className={`p-2 rounded-md w-20 h-8 flex items-center gap-1 justify-center  ${
                   isPositive ? "bg-orange-200 text-orange-800" : "bg-blue-200 text-blue-800"
                 }`}
               >
