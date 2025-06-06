@@ -35,10 +35,16 @@ Ao clicar no botão de cadastrar um novo sensor, é exibido um Pop-Up ao usuári
 - [Tailwind CSS](https://tailwindcss.com/) - Um framework CSS repleto de classes como flex, pt-4, text-center e rotate-90, que podem ser combinadas para construir qualquer design diretamente no seu código HTML.
 - [Node.js](https://nodejs.org/pt) -  Ambiente de execução de JavaScript multiplataforma, de código-aberto e gratuita, que permite aos programadores criar servidores, aplicações da Web, ferramentas de linha de comando e programas de automação de tarefas.
 
+## Integrantes
 
 Breno Amorim Roman - 20.00395-0
+
 Bruno Giannini Loffreda - 21.00122-7
+
 Enrico Mota Santarelli - 22.00370-3
+
 Leonardo Galdi Fiorese - 22.00952-3
+
 Rodrigo Reis Monasterios Morales - 22.01432-2
+
 Sergio Guidi Trovo - 22.01128-5
