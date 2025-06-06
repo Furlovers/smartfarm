@@ -63,7 +63,7 @@ export default function CustomLineChart({ info }) {
                 key={sensor._id}
                 type="monotone"
                 dataKey={`sensor_${sensor._id}`}
-                name={`Sensor #${sensor._id}`}
+                name={sensor.name}
                 stroke={color}
                 strokeWidth={2}
                 activeDot={{ r: 6 }}

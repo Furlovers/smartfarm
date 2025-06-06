@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import { useUser } from '../../utils/contexts/UserContext';
 import CustomLineChart from './components/linechart/linechart';
 import CustomList from './components/list/customList';
-import AverageInfoCard from '../../components/infoCards/averageInfoCard';
 import LoadingScreen from '../../components/LoadingScreen';
 import CardsGrid from '../../components/infoCards/cardsGrid';
 
