@@ -1,5 +1,5 @@
 import AverageInfoCard from "./averageInfoCard"
-import { getAllReadingsMax, getAllReadingsMin } from "../../utils/dashHelper"
+import { getAllReadingsMax, getAllReadingsMin, processListData} from "../../utils/dashHelper"
 import { useUser } from "../../utils/contexts/UserContext"
 
 export default function CardsGrid({info}){
@@ -12,7 +12,7 @@ export default function CardsGrid({info}){
                   <AverageInfoCard info= {info} />
                 </div>
                 <div className='bg-white w-full h-min rounded-md flex items-center justify-center'>
-                  <div className='w-100 h-52 flex items-center justify-between text-xl font-bold flex-col'>
+                  <div className='w-100 h-52 flex items-center justify-between text-xl font-bold flex-col shadow-sm hover:shadow-lg'>
                     Valor máximo
                     <a className="h-[80%] flex justify-center items-center text-4xl">
                     {getAllReadingsMax(userData.sensorList, info)}{info === "lum" || info === "batery"
@@ -25,7 +25,7 @@ export default function CardsGrid({info}){
                   </div>
                 </div>
                 <div className='bg-white w-full h-full rounded-md flex items-center justify-center'>
-                <div className='w-100 h-52 flex items-center justify-between text-xl font-bold flex-col'>
+                <div className='w-100 h-52 flex items-center justify-between text-xl font-bold flex-col shadow-sm hover:shadow-lg'>
                     Valor máximo
                     <a className="h-[80%] flex justify-center items-center text-4xl">
                     {getAllReadingsMin(userData.sensorList, info)}{info === "lum" || info === "batery"
@@ -38,8 +38,11 @@ export default function CardsGrid({info}){
                   </div>
                 </div>
                 <div className='bg-white w-full h-full rounded-md flex items-center justify-center'>
-                    <div className='w-100 h-52 flex items-center justify-center text-xl font-bold'>
-                    
+                    <div className='w-100 h-52 flex flex-col items-center justify-between text-xl font-bold shadow-sm hover:shadow-lg'>
+                    Quantidade de leituras
+                    <a className="h-[80%] flex justify-center items-center text-4xl">
+                     {processListData(userData.sensorList, info).length}
+                    </a>
                     </div>
                 </div>
     </div>
