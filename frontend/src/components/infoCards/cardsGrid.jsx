@@ -26,7 +26,7 @@ export default function CardsGrid({info}){
                 </div>
                 <div className='bg-white w-full h-full rounded-md flex items-center justify-center'>
                 <div className='w-100 h-52 flex items-center justify-between text-xl font-bold flex-col shadow-sm hover:shadow-lg'>
-                    Valor máximo
+                    Valor mínimo
                     <a className="h-[80%] flex justify-center items-center text-4xl">
                     {getAllReadingsMin(userData.sensorList, info)}{info === "lum" || info === "batery"
                         ? "%"
