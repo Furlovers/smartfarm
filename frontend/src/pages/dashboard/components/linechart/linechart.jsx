@@ -20,7 +20,7 @@ import { processChartData } from "../../../../utils/dashHelper";
 export default function CustomLineChart({ info }) {
   const { userData } = useUser();
 
-  const chartData = processChartData(userData.sensorList, userData.readings, info);
+  const chartData = processChartData(userData.sensorList, info);
 
   return (
     <div className="h-full w-full bg-white rounded-md shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">

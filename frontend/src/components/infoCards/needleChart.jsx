@@ -19,7 +19,7 @@ const getBaseMaxByInfo = (info) => {
 const renderNeedle = (value, max) => {
   const angle = 210 - (value / max) * 240;
   const length = 60;
-  const cx = 200;
+  const cx = 145;
   const cy = 100;
 
   const angleRad = RADIAN * angle;
@@ -89,7 +89,7 @@ export default function PieWithNeedle({ average, info }) {
             dataKey="value"
             startAngle={210}
             endAngle={-30}
-            cx={200}
+            cx={145}
             cy={100}
             innerRadius={50}
             outerRadius={80}
