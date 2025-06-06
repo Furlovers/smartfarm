@@ -51,41 +51,38 @@ export default function MapPage() {
     hour12: false,
   };
 
-  function CreateSensor() {
-    let doesSensorExist = userData.sensorList.some(
-      (sensor) => sensor.name === sensorName
-    );
+async function CreateSensor() {
 
-    if (doesSensorExist) {
-      alert("Sensor já existe");
-      return;
-    }
+  const newSensor = {
+    name: sensorName.trim(),
+    latitude: +latitude,
+    longitude: +longitude,
+  };
 
-    if (!sensorName || !latitude || !longitude) {
-      alert("Por favor, preencha todos os campos.");
-      return;
-    }
-    const newSensor = {
-      name: sensorName,
-      latitude: parseFloat(latitude),
-      longitude: parseFloat(longitude),
-    };
-    createSensor(newSensor);
-    setSensorName("");
-    setLatitude("");
-    setLongitude("");
-    setIsPopupOpen(false);
+  try {
+    await createSensor(newSensor);
 
-    window.location.reload();
+    await fetchUserData();       
+  } catch (e) {
+    alert("Erro ao criar sensor");
+    console.error(e);
+    return;                    
   }
 
+  setSensorName("");
+  setLatitude("");
+  setLongitude("");
+  setIsPopupOpen(false);
+}
+
+
   function handleDeleteSensor() {
+    console.log("Deleting sensor:", sensorToDelete);
     deleteSensor(sensorToDelete).then(() => {
       fetchUserData();
       setConfirmOpen(false);
       setSensorToDelete(null);
     });
-    window.location.reload();
   }
 
   return (
