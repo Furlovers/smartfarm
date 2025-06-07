@@ -1,14 +1,15 @@
 const axios = require("axios");
 
 const SENSOR_IDS = [
-  "7f22e8c9-43f9-4019-a02e-491cfa007e6a",
-  "9e3659d2-310c-4402-810a-7d04ffb9da6b",
+  "062a3ea9-e832-4923-9200-c6dab0a80242",
+  "84ec7b9a-9bfd-4e2c-a1a9-420fe8301684",
 ];
 
 const AUTH_TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijk5NmZmMzZhLWY3ZmYtNGVlMy05ZjJmLThiMWE3MDVkYzdmYiIsImVtYWlsIjoiYWRtaW5AbWFpbC5jb20iLCJyb2xlIjoidXNlci1iYXNpYyIsImlhdCI6MTc0ODY5Mjc4NywiZXhwIjoxNzQ4Njk2Mzg3fQ.nufFS63sKTIiaONW9LwGTFJE8TqsRs8ujS2umZitfbY";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY0MTQxZDdlLWM4N2QtNGFmNC04ZjkwLTY0ZWFkZDMzYjgwMSIsImVtYWlsIjoiZmF6ZW5kYWJvc3NhdG9AZ21haWwuY29tIiwicm9sZSI6InVzZXItYmFzaWMiLCJpYXQiOjE3NDkyNTQzMjAsImV4cCI6MTc0OTI1NzkyMH0.YETBLgeSt80yGmZCWMe92zhjC_zm22oSc81QJBknnPo";
 
-const API_URL = "http://localhost:3002/readings";
+const API_URL =
+  "https://smartfarm-reading-mss-ee062958e049.herokuapp.com/readings";
 const NUM_READINGS = 20;
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 
@@ -25,11 +26,11 @@ async function populateReadings() {
     const createdAt = now - (NUM_READINGS - i - 1) * ONE_DAY_MS;
 
     const data = {
-      battery: getRandomInRange(10, 100),
-      temperature: getRandomInRange(10, 45, 1),
+      battery: getRandomInRange(50, 100),
+      temperature: getRandomInRange(20, 30, 1),
       humidity: getRandomInRange(20, 90, 1),
       pH: getRandomInRange(5.5, 8.5, 2),
-      luminosity: getRandomInRange(100, 1000),
+      luminosity: getRandomInRange(30, 100),
       sensorId,
       createdAt,
     };
@@ -41,10 +42,10 @@ async function populateReadings() {
         },
       });
       console.log(
-        `✅ Inserido para ${sensorId} em ${new Date(createdAt).toISOString()}`
+        `Inserido para ${sensorId} em ${new Date(createdAt).toISOString()}`
       );
     } catch (error) {
-      console.error(`❌ Erro ao inserir: ${JSON.stringify(data)}`);
+      console.error(`Erro ao inserir: ${JSON.stringify(data)}`);
       console.error(error.response?.data || error.message);
     }
   }
