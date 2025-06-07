@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { processListData, getDiferenceReadingVsAverage } from "../../../../utils/dashHelper.js";
+import { processListData, getDiferenceReadingVsAverage} from "../../../../utils/dashHelper.js";
 import { useUser } from "../../../../utils/contexts/UserContext";
-import { FaArrowTrendUp, FaArrowTrendDown, FaSortUp, FaSortDown } from "react-icons/fa6";
+import { FaArrowTrendUp, FaArrowTrendDown, FaSortUp, FaSortDown} from "react-icons/fa6";
 
-export default function CustomList({ info }) {
+export default function CustomList({ info, filteredSensors }) {
   const { userData } = useUser();
   const [sortBy, setSortBy] = useState("date");
   const [sortOrder, setSortOrder] = useState("asc");
@@ -23,7 +23,9 @@ export default function CustomList({ info }) {
   };
 
   const getSortedData = () => {
-    return [...processListData(userData.sensorList, info)].sort((a, b) => {
+    if (!filteredSensors || filteredSensors.length === 0) return [];
+
+    return [...processListData(filteredSensors, info)].sort((a, b) => {
       let aValue, bValue;
 
       if (sortBy === "date") {
@@ -36,8 +38,8 @@ export default function CustomList({ info }) {
         aValue = a.value;
         bValue = b.value;
       } else if (sortBy === "diff") {
-        aValue = getDiferenceReadingVsAverage(userData.sensorList, info, a.value);
-        bValue = getDiferenceReadingVsAverage(userData.sensorList, info, b.value);
+        aValue = getDiferenceReadingVsAverage(filteredSensors, info, a.value);
+        bValue = getDiferenceReadingVsAverage(filteredSensors, info, b.value);
       }
 
       if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
@@ -69,47 +71,56 @@ export default function CustomList({ info }) {
       </div>
 
       <div className='w-full h-8/9 rounded-b-md flex overflow-y-scroll flex-col items-center gap-1 px-2'>
-        {sortedData.map((item, index) => {
-          const localDate = new Date(item.date);
-          localDate.setMinutes(localDate.getMinutes() + localDate.getTimezoneOffset());
+        {sortedData.length === 0 ? (
+          <div className="w-full text-center mt-4 text-gray-500 font-semibold">
+            Nenhuma leitura disponível.
+          </div>
+        ) : (
+          sortedData.map((item, index) => {
+            const localDate = new Date(item.date);
+            localDate.setMinutes(localDate.getMinutes() + localDate.getTimezoneOffset());
 
-          const diff = getDiferenceReadingVsAverage(userData.sensorList, info, item.value);
-          const isPositive = diff >= 0;
+            const diff = getDiferenceReadingVsAverage(filteredSensors, info, item.value);
+            const isPositive = diff >= 0;
 
-          return (
-            <div key={index} className='w-full flex items-center justify-between p-1 flex-row border-b border-gray-300 hover:bg-gray-300 transition-colors duration-500'>
-              <div className='flex items-center'>
-                <div className='border-2 border-blue-950 h-8 w-32 rounded-sm flex items-center justify-center mr-2 text-lg font-bold'>
-                  {localDate.toLocaleDateString('pt-BR', {
-                    day: '2-digit',
-                    month: '2-digit',
-                    year: 'numeric',
-                  })}
-                </div>
-                <div className='mr-2 w-[full] text-center ml-6'>
-                  {item.sensorName}
-                </div>
-              </div>
-
-              <div className="w-[full] h-8 flex items-center justify-center font-bold text-md">
-                {item.value === null ? "Sem valor" : item.value + (info === "lum" || info === "batery" ? "%" : info === "temp" ? "°C" : "")}
-              </div>
-
+            return (
               <div
-                className={`p-2 rounded-md w-20 h-8 flex items-center gap-1 justify-center  ${
-                  isPositive ? "bg-orange-200 text-orange-800" : "bg-blue-200 text-blue-800"
-                }`}
+                key={index}
+                className='w-full flex items-center justify-between p-1 flex-row border-b border-gray-300 hover:bg-gray-300 transition-colors duration-500'
               >
-                {isPositive ? (
-                  <div className="flex flex-row"><FaArrowTrendUp size={12} /></div>
-                ) : (
-                  <div className="flex flex-row"><FaArrowTrendDown size={12} /></div>
-                )}
-                <div>{Math.abs(diff)}%</div>
+                <div className='flex items-center'>
+                  <div className='border-2 border-blue-950 h-8 w-32 rounded-sm flex items-center justify-center mr-2 text-lg font-bold'>
+                    {localDate.toLocaleDateString('pt-BR', {
+                      day: '2-digit',
+                      month: '2-digit',
+                      year: 'numeric',
+                    })}
+                  </div>
+                  <div className='mr-2 w-[full] text-center ml-6'>
+                    {item.sensorName}
+                  </div>
+                </div>
+
+                <div className="w-[full] h-8 flex items-center justify-center font-bold text-md">
+                  {item.value === null ? "Sem valor" : item.value + (info === "lum" || info === "batery" ? "%" : info === "temp" ? "°C" : "")}
+                </div>
+
+                <div
+                  className={`p-2 rounded-md w-20 h-8 flex items-center gap-1 justify-center  ${
+                    isPositive ? "bg-orange-200 text-orange-800" : "bg-blue-200 text-blue-800"
+                  }`}
+                >
+                  {isPositive ? (
+                    <div className="flex flex-row"><FaArrowTrendUp size={12} /></div>
+                  ) : (
+                    <div className="flex flex-row"><FaArrowTrendDown size={12} /></div>
+                  )}
+                  <div>{Math.abs(diff)}%</div>
+                </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })
+        )}
       </div>
     </>
   );

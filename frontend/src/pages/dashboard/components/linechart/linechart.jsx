@@ -17,10 +17,13 @@ import {
 import { useUser } from "../../../../utils/contexts/UserContext";
 import { processChartData } from "../../../../utils/dashHelper";
 
-export default function CustomLineChart({ info }) {
+export default function CustomLineChart({ info, filteredSensors }) {
   const { userData } = useUser();
 
-  const chartData = processChartData(userData.sensorList, info);
+  const chartData =
+    filteredSensors && filteredSensors.length > 0
+      ? processChartData(filteredSensors, info)
+      : [];
 
   return (
     <div className="h-full w-full bg-white rounded-md shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
@@ -48,7 +51,7 @@ export default function CustomLineChart({ info }) {
           <YAxis tick={{ fontSize: 12 }} domain={["dataMin", "dataMax"]} />
           <Tooltip content={<CustomTooltip info={info} />} />
 
-          {userData?.sensorList.map((sensor, index) => {
+          {filteredSensors?.map((sensor, index) => {
             const colors = [
               "#e64c6a",
               "#8884d8",
@@ -68,7 +71,7 @@ export default function CustomLineChart({ info }) {
                 strokeWidth={2}
                 activeDot={{ r: 6 }}
                 dot={{ r: 3 }}
-                connectNulls={true}        // <- LINHA ADICIONADA AQUI
+                connectNulls={true}
                 isAnimationActive={false}
               />
             );
