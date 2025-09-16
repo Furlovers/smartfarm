@@ -17,16 +17,16 @@ import {
 import { useUser } from "../../../../utils/contexts/UserContext";
 import { processChartData } from "../../../../utils/dashHelper";
 
-
-export default function CustomLineChart({ info }) {
+export default function CustomLineChart({ info, filteredSensors }) {
   const { userData } = useUser();
 
-  const chartData = processChartData(userData.sensorList, userData.readings, info);
-
-
+  const chartData =
+    filteredSensors && filteredSensors.length > 0
+      ? processChartData(filteredSensors, info)
+      : [];
 
   return (
-    <div className="h-full w-full bg-white rounded-md">
+    <div className="h-full w-full bg-white rounded-md shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden">
       <ResponsiveContainer
         width="99%"
         height="100%"
@@ -51,7 +51,7 @@ export default function CustomLineChart({ info }) {
           <YAxis tick={{ fontSize: 12 }} domain={["dataMin", "dataMax"]} />
           <Tooltip content={<CustomTooltip info={info} />} />
 
-          {userData?.sensorList.map((sensor, index) => {
+          {filteredSensors?.map((sensor, index) => {
             const colors = [
               "#e64c6a",
               "#8884d8",
@@ -66,11 +66,12 @@ export default function CustomLineChart({ info }) {
                 key={sensor._id}
                 type="monotone"
                 dataKey={`sensor_${sensor._id}`}
-                name={`Sensor #${sensor._id}`}
+                name={sensor.name}
                 stroke={color}
                 strokeWidth={2}
                 activeDot={{ r: 6 }}
                 dot={{ r: 3 }}
+                connectNulls={true}
                 isAnimationActive={false}
               />
             );
@@ -152,7 +153,7 @@ const CustomTooltip = ({ active, payload, label, info }) => {
               </span>
             </div>
             <span className="text-md font-semibold ml-1 text-white">
-              {entry.value}{" "}
+              {entry.value}
               {info === "temp"
                 ? "°C"
                 : info === "batery" || info === "lum"

@@ -1,5 +1,6 @@
 import app from './app.js';
 
-app.listen(3003, () => {
-  console.log("View MSS Running...");
+const PORT = process.env.PORT || 3003;
+app.listen(PORT, () => {
+  console.log(`Event Bus Running on port ${PORT}...`);
 });

@@ -10,6 +10,7 @@ import LumPage from "./pages/dashboard/lumPage";
 import PhPage from "./pages/dashboard/phPage";
 import { UserProvider } from "./utils/contexts/UserContext";
 import { SensorProvider } from "./utils/contexts/SensorContext";
+import "./utils/fixLeafletIcon";  
 
 function App() {
   return (

@@ -1,5 +1,6 @@
 import app from './app.js';
 
-app.listen(3004, () => {
-  console.log("Event Bus Running...");
+const PORT = process.env.PORT || 3004;
+app.listen(PORT, () => {
+  console.log(`Event Bus Running on port ${PORT}...`);
 });

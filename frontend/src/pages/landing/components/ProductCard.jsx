@@ -1,5 +1,6 @@
 import { FaCheck } from "react-icons/fa";
 import Button from "../../../components/ui/Button";
+import { Link } from "react-router-dom";
 
 export default function ProductCard({ tier }) {
   return (
@@ -23,7 +24,9 @@ export default function ProductCard({ tier }) {
           </ul>
         </div>
         <div className="mt-auto">
+          <Link to="/login">
           <Button>Assinar</Button>
+          </Link>
         </div>
       </div>
     </div>

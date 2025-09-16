@@ -2,6 +2,15 @@
   import dotenv from 'dotenv';
   import Sensor from '../models/sensor_model.js';
 
+  /*
+
+Este arquivo tem a finalidade de gerenciar a sessão do usuário, verificando a partir de seu token 
+de autenticação gerado durante o login. Também, verifica se um usuário tem permissão para interagir com o 
+objeto desejado.
+
+*/
+
+
   dotenv.config();
 
   export const authenticateToken = (req, res, next) => {

@@ -1,5 +1,6 @@
 import app from './app.js';
 
-app.listen(3000, () => {
-  console.log("SmartFarm User MSS Running...");
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Event Bus Running on port ${PORT}...`);
 });

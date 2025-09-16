@@ -33,7 +33,7 @@ jobs:
             npm install vite
             npm install -g aws-cdk
             npm install
-            cd ../iac
+            cd ../iac_frontend
             npm install
             cdk bootstrap aws://${{ secrets.AWS_ACCOUNT_ID }}/${{ vars.AWS_REGION }}
         - name: Build and Export
@@ -52,7 +52,7 @@ jobs:
             echo SMARTFARM_HOSTED_ZONE_ID=${{ secrets.SMARTFARM_HOSTED_ZONE_ID }} >> $GITHUB_ENV  
         - name: Deploy with CDK
           run: |
-            cd iac
+            cd iac_frontend
             cdk synth
             cdk deploy --require-approval never 
         - name: Set CloudFront ID
@@ -64,6 +64,6 @@ jobs:
             AWS_BUCKET=$(aws cloudformation --region ${{vars.AWS_REGION}} describe-stacks --stack-name ${{env.STACK_NAME}} --query "Stacks[0].Outputs[?OutputKey=='SmartfarmFrontBucketName${{github.ref_name}}'].OutputValue" --output text)
             echo "AWS_BUCKET='$AWS_BUCKET'" >> $GITHUB_ENV
         - name: Upload to S3
-          run: aws s3 cp dist s3://${{env.AWS_BUCKET}}/ --recursive --region ${{ vars.AWS_REGION }}
+          run: aws s3 cp frontend/dist s3://${{env.AWS_BUCKET}}/ --recursive --region ${{ vars.AWS_REGION }}
         - name: Clear CDN cache
           run: aws cloudfront create-invalidation --distribution-id ${{env.CLOUD_FRONT_ID}} --paths "/*" --region sa-east-1

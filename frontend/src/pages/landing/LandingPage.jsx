@@ -4,7 +4,7 @@ import Button from "../../components/ui/Button";
 import NavLanding from "/src/components/NavLanding/NavLanding.jsx";
 import AboutSection from "./components/AboutSection";
 import ServicesSection from "./components/ServicesSection";
-import Footer from '/src/components/Footer.jsx';
+import Footer from "/src/components/Footer.jsx";
 import ProductsSection from "./components/ProductsSection";
 
 export default function LandingPage() {
@@ -38,7 +38,9 @@ export default function LandingPage() {
                   Aumente a eficiência, reduza custos e melhore seus resultados
                   com soluções acessíveis e tecnologia de ponta.
                 </p>
-                <Button>Saiba Mais</Button>
+                <a href="#products">
+                  <Button>Saiba Mais</Button>
+                </a>
               </div>
 
               <div className="md:w-1/2 w-full flex justify-center md:justify-end py-12 md:py-0">
@@ -59,12 +61,11 @@ export default function LandingPage() {
             </div>
           </div>
         </div>
-        <AboutSection/>
-        <ServicesSection/>
-        <ProductsSection/>
+        <AboutSection />
+        <ServicesSection />
+        <ProductsSection />
       </div>
-      
-        <Footer />
+      <Footer />
           
     </>
   );

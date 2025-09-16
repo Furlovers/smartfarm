@@ -1,12 +1,8 @@
-import { PieChart, Pie, Cell, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, Text } from 'recharts';
 
-const RADIAN = Math.PI / 240;
-const cx = 140;
-const cy = 110;
-const iR = 50;
-const oR = 100;
+const RADIAN = Math.PI / 180;
 
-const getMaxByInfo = (info) => {
+const getBaseMaxByInfo = (info) => {
   switch (info) {
     case 'lum':
     case 'batery':
@@ -20,66 +16,95 @@ const getMaxByInfo = (info) => {
   }
 };
 
-const needle = (value, total, cx, cy, iR, oR, color) => {
-  const startAngle = 210;
-  const endAngle = -30;
-  const range = startAngle - endAngle;
-  const ang = startAngle - (value / total) * range;
+const renderNeedle = (value, max) => {
+  const angle = 210 - (value / max) * 240;
+  const length = 60;
+  const cx = 145;
+  const cy = 100;
 
-  const length = (iR + 2 * oR) / 3;
-  const sin = Math.sin(-RADIAN * ang);
-  const cos = Math.cos(-RADIAN * ang);
-  const r = 5;
-  const x0 = cx + 5;
-  const y0 = cy + 5;
-  const xba = x0 + r * sin;
-  const yba = y0 - r * cos;
-  const xbb = x0 - r * sin;
-  const ybb = y0 + r * cos;
-  const xp = x0 + length * cos;
-  const yp = y0 + length * sin;
+  const angleRad = RADIAN * angle;
+  const x = cx + length * Math.cos(angleRad);
+  const y = cy - length * Math.sin(angleRad);
+
+  const baseLeftX = cx + 5 * Math.cos(angleRad + Math.PI / 2);
+  const baseLeftY = cy - 5 * Math.sin(angleRad + Math.PI / 2);
+  const baseRightX = cx + 5 * Math.cos(angleRad - Math.PI / 2);
+  const baseRightY = cy - 5 * Math.sin(angleRad - Math.PI / 2);
 
   return [
-    <circle key="needle-circle" cx={x0} cy={y0} r={r} fill={color} stroke="none" />,
+    <circle key="center" cx={cx} cy={cy} r={5} fill="#f25050" />,
     <path
-      key="needle-path"
-      d={`M${xba} ${yba}L${xbb} ${ybb} L${xp} ${yp} Z`}
-      stroke="none"
-      fill={color}
+      key="needle"
+      d={`M${baseLeftX},${baseLeftY} L${baseRightX},${baseRightY} L${x},${y} Z`}
+      fill="#f25050"
     />,
   ];
 };
 
+const renderTicks = (max) => {
+  const cx = 100;
+  const cy = 100;
+  const radius = 70;
+
+  const ticks = Array.from({ length: 5 }, (_, i) => Math.round((i * max) / 4));
+
+  return ticks.map((value, i) => {
+    const angle = 210 - (i * 60);
+    const x = cx + radius * Math.cos(RADIAN * angle);
+    const y = cy - radius * Math.sin(RADIAN * angle);
+
+    return (
+      <Text
+        key={`tick-${value}`}
+        x={x}
+        y={y}
+        textAnchor="middle"
+        dominantBaseline="middle"
+        fontSize={10}
+        fill="#555"
+      >
+        {value}
+      </Text>
+    );
+  });
+};
+
 export default function PieWithNeedle({ average, info }) {
-  const max = getMaxByInfo(info);
-  const cappedAverage = Math.min(Math.max(average, 0), max);
+  const baseMax = getBaseMaxByInfo(info);
+  const dynamicMax = average > baseMax ? Math.ceil(average / baseMax) * baseMax : baseMax;
+
+  const cappedAverage = Math.min(average, dynamicMax);
 
   const data = [
     { name: 'Preenchido', value: cappedAverage, color: '#162456' },
-    { name: 'Vazio', value: max - cappedAverage, color: '#e9ebf2' },
+    { name: 'Restante', value: dynamicMax - cappedAverage, color: '#e9ebf2' },
   ];
 
   return (
-    <ResponsiveContainer width="100%" height="82%">
-      <PieChart>
-        <Pie
-          dataKey="value"
-          startAngle={210}
-          endAngle={-30}
-          data={data}
-          cx={cx}
-          cy={cy}
-          innerRadius={iR}
-          outerRadius={oR}
-          stroke="none"
-          isAnimationActive={false}
-        >
-          {data.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={entry.color} />
-          ))}
-        </Pie>
-        {needle(cappedAverage, max, cx, cy, iR, oR, '#f25050')}
-      </PieChart>
-    </ResponsiveContainer>
+    <div className="flex items-center justify-center w-full h-[180px]">
+      <ResponsiveContainer width="100%" height="100%">
+        <PieChart>
+          <Pie
+            data={data}
+            dataKey="value"
+            startAngle={210}
+            endAngle={-30}
+            cx={145}
+            cy={100}
+            innerRadius={50}
+            outerRadius={80}
+            stroke="none"
+            isAnimationActive={false}
+          >
+            {data.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={entry.color} />
+            ))}
+          </Pie>
+
+          {renderNeedle(average, dynamicMax)}
+          {renderTicks(dynamicMax)}
+        </PieChart>
+      </ResponsiveContainer>
+    </div>
   );
 }

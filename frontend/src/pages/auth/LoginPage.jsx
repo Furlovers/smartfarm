@@ -2,7 +2,7 @@ import logo from "/src/assets/logo.png";
 import StyledInput from "./components/styledInput";
 import { useState } from "react";
 import LoginImage from "/src/assets/login_image.png";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../utils/contexts/UserContext";
 import ErrorBox from "../../components/ErrorBox";
 
@@ -23,7 +23,7 @@ export default function LoginPage() {
         setErrorMessage("");
       })
       .catch((err) => {
-        setErrorMessage(err.response);
+        setErrorMessage(err?.response?.data?.message || "Erro ao fazer login");
       });
   }
 
@@ -32,7 +32,7 @@ export default function LoginPage() {
     register({
       email: email,
       password: password,
-      name: name,
+      name: `${name} ${surname}`,
       address: "",
     })
       .then(() => {
@@ -40,7 +40,7 @@ export default function LoginPage() {
         setErrorMessage("");
       })
       .catch((err) => {
-        setErrorMessage(err.response);
+        setErrorMessage(err?.response?.data?.message || "Erro ao cadastrar");
       });
   }
 
@@ -61,7 +61,9 @@ export default function LoginPage() {
       <div className="w-full md:w-1/2 p-2 flex flex-col items-start justify-between md:pl-12 py-4 md:py-8">
         {/* LOGO */}
         <div className="w-full flex justify-center md:justify-start mb-4 md:mb-0">
+          <Link to="/">
           <img src={logo} alt="SmartFarm Logo" className="h-16 md:h-20" />
+          </Link>
         </div>
 
         {/* FORMULÁRIO */}

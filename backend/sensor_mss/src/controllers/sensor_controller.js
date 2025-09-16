@@ -1,6 +1,14 @@
 import * as sensorService from "../services/sensor_service.js";
 import axios from "axios";
 
+/*
+
+Este arquivo tem a finalidade de tratar as requisições vindas do frontend para o microsserviço de sensores.
+Arquiteturalmente, é a camada do backend mais próxima do frontend. Realiza a interpretação dos status codes,
+trata possíveis erros, e faz a chamada dos outros microsserviços necessários para atender a requisição.
+
+*/
+
 export const getAllSensors = async (req, res) => {
   try {
     const sensors = await sensorService.getAllSensors();
@@ -36,7 +44,7 @@ export const createSensor = async (req, res) => {
       },
       req.user.id
     );
-    axios.post("http://localhost:3004/event", {
+    axios.post("https://smartfarm-event-bus-8f3176961794.herokuapp.com/event", {
       type: "SensorCreate",
       data: {
         user_id: req.user.id,
@@ -77,7 +85,7 @@ export const deleteSensor = async (req, res) => {
       return res.status(404).json({ message: "Sensor não encontrado" });
     }
 
-    axios.post("http://localhost:3004/event", {
+    axios.post("https://smartfarm-event-bus-8f3176961794.herokuapp.com/event", {
       type: "SensorDelete",
       data: {
         user_id: req.user.id,

@@ -13,9 +13,9 @@ export default function Footer() {
           Comece hoje mesmo e veja os resultados em sua próxima colheita.
         </p>
         <div className="flex justify-center gap-4 flex-wrap">
-          <Link to="/services">
+          <a href="#services">
             <Button> Veja os nossos serviços</Button>
-          </Link>
+          </a>
           <Link to="https://www.linkedin.com/in/brunogiannini/" target="_blank">
             <Button
               background="bg-white"

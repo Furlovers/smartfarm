@@ -1,6 +1,12 @@
 import Sensor from "../models/sensor_model.js";
 import axios from "axios";
 
+/*
+Neste arquivo são definidas de fato as funcionalidades do microsserviço de sensores. Consiste nas funções
+responsáveis por interagir diretamente com o banco de dados e com o barramento de eventos. Suas funções
+são utilizadas pelo arquivo `controller` deste microsserviço. 
+*/
+
 export const getAllSensors = async () => await Sensor.find();
 
 export const getSensorById = async (sensorId) => {
@@ -10,7 +16,7 @@ export const getSensorById = async (sensorId) => {
 export const createSensor = async (data, userId) => {
   const newSensor = new Sensor(data);
   await newSensor.save();
-  await axios.post("http://localhost:3004/event", {
+  await axios.post("https://smartfarm-event-bus-8f3176961794.herokuapp.com/event", {
     type: "SensorCreateView",
     data: {
       sensor_data: newSensor,
@@ -41,7 +47,7 @@ export const updateSensor = async (sensorId, data, userId) => {
   if (!updatedSensor) {
     throw new Error("Sensor não encontrado");
   }
-  await axios.post("http://localhost:3004/event", {
+  await axios.post("https://smartfarm-event-bus-8f3176961794.herokuapp.com/event", {
     type: "SensorUpdateView",
     data: {
       sensor_data: updatedSensor,
@@ -58,7 +64,7 @@ export const deleteSensor = async (sensorId, userId) => {
   if (!deletedSensor) {
     throw new Error("Sensor não encontrado");
   }
-  await axios.post("http://localhost:3004/event", {
+  await axios.post("https://smartfarm-event-bus-8f3176961794.herokuapp.com/event", {
     type: "SensorDeleteView",
     params: {
       userId: userId,

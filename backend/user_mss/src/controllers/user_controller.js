@@ -1,6 +1,14 @@
 import * as userService from '../services/user_service.js';
 import jwt from 'jsonwebtoken';
 
+/*
+
+Este arquivo tem a finalidade de tratar as requisições vindas do frontend para o microsserviço de usuário.
+Arquiteturalmente, é a camada do backend mais próxima do frontend. Realiza a interpretação dos status codes,
+trata possíveis erros, e faz a chamada dos outros microsserviços necessários para atender a requisição.
+
+*/
+
 export const getAllUsers = async (req, res) => {
   try {
     const users = await userService.getAllUsers();

@@ -3,6 +3,12 @@ import bcrypt from "bcrypt";
 import { v4 as uuidv4 } from "uuid";
 import axios from "axios";
 
+/*
+Neste arquivo são definidas de fato as funcionalidades do microsserviço de usuário. Consiste nas funções
+responsáveis por interagir diretamente com o banco de dados e com o barramento de eventos. Suas funções
+são utilizadas pelo arquivo `controller` deste microsserviço. 
+*/
+
 export const getAllUsers = async () => await User.find();
 
 export const getUserByUserId = async (userId) => {
@@ -16,6 +22,7 @@ export const createUser = async (data) => {
       throw new Error("Email já registrado");
     }
 
+    // Criptografa a senha do usuário antes de armazenar no banco de dados
     const hashedPassword = bcrypt.hashSync(data.password, 10);
 
     const userData = {
@@ -28,7 +35,7 @@ export const createUser = async (data) => {
 
     const newUser = new User(userData);
     await newUser.save();
-    await axios.post("http://localhost:3004/event", {
+    await axios.post("https://smartfarm-event-bus-8f3176961794.herokuapp.com/event", {
       type: "UserCreateView",
       data: {
         user_data: userData,
@@ -53,7 +60,7 @@ export const updateUserByUserId = async (userId, data) => {
       new: true,
     });
 
-    await axios.post("http://localhost:3004/event", {
+    await axios.post("https://smartfarm-event-bus-8f3176961794.herokuapp.com/event", {
       type: "UserUpdateView",
       data: {
         user_data: updatedUser,
@@ -95,7 +102,7 @@ export const removeSensor = async (userId, sensorId) => {
 export const deleteUserByUserId = async (userId) => {
   try {
     const deleted = await User.findOneAndDelete({ userId });
-    await axios.post("http://localhost:3004/event", {
+    await axios.post("https://smartfarm-event-bus-8f3176961794.herokuapp.com/event", {
       type: "UserDeleteView",
       params: { userId: userId },
     });
