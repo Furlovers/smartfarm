@@ -1,0 +1,54 @@
+version: "3.9"
+
+services:
+  event_bus:
+    build: ./event_bus
+    container_name: event_bus
+    ports:
+      - "3004:3004"
+    networks:
+      - smartfarm
+
+  user_mss:
+    build: ./user_mss
+    container_name: user_mss
+    ports:
+      - "3000:3000"
+    depends_on:
+      - event_bus
+    networks:
+      - smartfarm
+
+  sensor_mss:
+    build: ./sensor_mss
+    container_name: sensor_mss
+    ports:
+      - "3001:3001"
+    depends_on:
+      - event_bus
+    networks:
+      - smartfarm
+
+  reading_mss:
+    build: ./reading_mss
+    container_name: reading_mss
+    ports:
+      - "3002:3002"
+    depends_on:
+      - event_bus
+    networks:
+      - smartfarm
+
+  view_mss:
+    build: ./view_mss
+    container_name: view_mss
+    ports:
+      - "3003:3003"
+    depends_on:
+      - event_bus
+    networks:
+      - smartfarm
+
+networks:
+  smartfarm:
+    driver: bridge
