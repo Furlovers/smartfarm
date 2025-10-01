@@ -27,7 +27,7 @@ const productTiers = <ProductTier>[
       'Atualização dos dashboards a cada 3 horas',
       'Suporte por e-mail em até 48h',
     ],
-    color: Color(0xFF16A34A), // green-600
+    color: Color(0xFF16A34A),
   ),
   ProductTier(
     name: 'Intermediário',
@@ -41,7 +41,7 @@ const productTiers = <ProductTier>[
       'Suporte por chat em até 24h',
       'Relatórios personalizáveis',
     ],
-    color: Color(0xFF2563EB), // blue-600
+    color: Color(0xFF2563EB),
   ),
   ProductTier(
     name: 'Premium',
@@ -56,6 +56,6 @@ const productTiers = <ProductTier>[
       'Análises preditivas com IA',
       'Alertas personalizados',
     ],
-    color: Color(0xFFF59E0B), // amber-500 (destaque pro "IA")
+    color: Color(0xFFF59E0B),
   ),
 ];
