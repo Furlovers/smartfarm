@@ -1,0 +1,10 @@
+docker build -t event_bus:latest ./event_bus
+docker build -t user_mss:latest ./user_mss
+docker build -t sensor_mss:latest ./sensor_mss
+docker build -t reading_mss:latest ./reading_mss
+docker build -t view_mss:latest ./view_mss
+
+kubectl apply -f k8s/
+kubectl delete -f k8s/
+kubectl get pods  
+

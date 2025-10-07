@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sensor-mss-config
+data:
+  JWT_SECRET: "rzz99wLqZDLmrdS&1JHRhyV&crj@DB"
+  MONGODB_URI: "mongodb+srv://baguncadomonstrao:%23CabecaDoVandeco%40321@cluster-smartfarm.xailfpc.mongodb.net/smartfarm?retryWrites=true&w=majority&appName=Cluster-SmartFarm"
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sensor-mss
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: sensor-mss
+  template:
+    metadata:
+      labels:
+        app: sensor-mss
+    spec:
+      containers:
+        - name: sensor-mss
+          image: sensor_mss:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3001
+          resources:
+            limits:
+              memory: 256Mi
+              cpu: 1
+            requests:
+              memory: 128Mi
+              cpu: 250m
+          envFrom:
+            - configMapRef:
+                name: sensor-mss-config
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: sensor-mss
+spec:
+  type: NodePort
+  selector:
+    app: sensor-mss
+  ports:
+    - protocol: TCP
+      port: 3001
+      targetPort: 3001
+      nodePort: 31001

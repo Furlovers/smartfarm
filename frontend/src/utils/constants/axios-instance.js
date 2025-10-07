@@ -14,10 +14,12 @@ const createAxiosInstance = (baseURL) => {
   return instance;
 };
 
-export const userAPI = createAxiosInstance("http://localhost:3000/users");
+export const userAPI = createAxiosInstance("http://localhost:31000/users");
 
-export const sensorAPI = createAxiosInstance("http://localhost:3001/sensors");
+export const sensorAPI = createAxiosInstance("http://localhost:31001/sensors");
 
-export const readingAPI = createAxiosInstance("http://localhost:3002/readings");
+export const readingAPI = createAxiosInstance(
+  "http://localhost:31002/readings"
+);
 
-export const viewAPI = createAxiosInstance("http://localhost:3003/view");
+export const viewAPI = createAxiosInstance("http://localhost:31003/view");
