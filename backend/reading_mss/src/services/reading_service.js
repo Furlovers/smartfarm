@@ -14,7 +14,7 @@ export const getReadingById = async (id) => await Reading.findById(id);
 export const createReading = async (data, userId) => {
   const newReading = new Reading(data);
   await newReading.save();
-  await axios.post("https://smartfarm-event-bus-8f3176961794.herokuapp.com/event", {
+  await axios.post("http://event-bus:3004/event", {
     type: "ReadingCreateView",
     params: {
       userId: userId,
@@ -31,7 +31,7 @@ export const updateReading = async (readingId, data, userId, sensorId) => {
   const updatedReading = await Reading.findOneAndUpdate({ readingId }, data, {
     new: true,
   });
-  await axios.post("https://smartfarm-event-bus-8f3176961794.herokuapp.com/event", {
+  await axios.post("http://event-bus:3004event", {
     type: "ReadingUpdateView",
     params: {
       userId: userId,
@@ -47,7 +47,7 @@ export const updateReading = async (readingId, data, userId, sensorId) => {
 
 export const deleteReading = async (readingId, sensorId, userId) => {
   const deleted = await Reading.findOneAndDelete({ readingId });
-  await axios.post("https://smartfarm-event-bus-8f3176961794.herokuapp.com/event", {
+  await axios.post("http://event-bus:3004/event", {
     type: "ReadingDeleteView",
     params: {
       userId: userId,

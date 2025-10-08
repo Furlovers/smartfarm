@@ -35,7 +35,7 @@ export const createUser = async (data) => {
 
     const newUser = new User(userData);
     await newUser.save();
-    await axios.post("https://smartfarm-event-bus-8f3176961794.herokuapp.com/event", {
+    await axios.post("http://event-bus:3004/event", {
       type: "UserCreateView",
       data: {
         user_data: userData,
@@ -60,7 +60,7 @@ export const updateUserByUserId = async (userId, data) => {
       new: true,
     });
 
-    await axios.post("https://smartfarm-event-bus-8f3176961794.herokuapp.com/event", {
+    await axios.post("http://event-bus:3004/event", {
       type: "UserUpdateView",
       data: {
         user_data: updatedUser,
@@ -102,7 +102,7 @@ export const removeSensor = async (userId, sensorId) => {
 export const deleteUserByUserId = async (userId) => {
   try {
     const deleted = await User.findOneAndDelete({ userId });
-    await axios.post("https://smartfarm-event-bus-8f3176961794.herokuapp.com/event", {
+    await axios.post("http://event-bus:3004/event", {
       type: "UserDeleteView",
       params: { userId: userId },
     });

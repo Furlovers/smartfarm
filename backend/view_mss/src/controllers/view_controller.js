@@ -13,6 +13,7 @@ export const createUser = async (req, res) => {
     const newUser = await viewService.createUser(req.body);
     res.status(201).json(newUser);
   } catch (err) {
+    console.log("AQUIII");
     res.status(400).json({ message: `Erro ao criar usuário: ${err.message}` });
   }
 };
