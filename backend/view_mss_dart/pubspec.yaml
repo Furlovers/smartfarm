@@ -1,0 +1,15 @@
+name: view_mss_dart
+description: Microsserviço de View convertido para Dart.
+version: 1.0.0
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  mongo_dart: ^0.10.1
+  shelf: ^1.4.1
+  shelf_router: ^1.1.4
+  shelf_cors_headers: ^0.1.5
+  uuid: ^4.3.3
+
+dev_dependencies:
+  lints: ^3.0.0
