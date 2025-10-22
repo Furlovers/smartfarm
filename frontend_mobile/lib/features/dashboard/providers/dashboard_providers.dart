@@ -38,7 +38,8 @@ final selectedSensorProvider = Provider<Sensor?>((ref) {
   final id = ref.watch(dashboardStateProvider.select((s) => s.selectedSensorId));
   return view?.sensorList.firstWhere(
     (s) => s.id == id,
-    orElse: () => (view?.sensorList.isNotEmpty ?? false) ? view!.sensorList.first : (null as Sensor),
+    // ignore: cast_from_null_always_fails
+    orElse: () => (view.sensorList.isNotEmpty) ? view.sensorList.first : (null as Sensor),
   );
 });
 

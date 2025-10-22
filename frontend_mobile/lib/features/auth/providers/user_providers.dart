@@ -49,7 +49,6 @@ class UserViewController extends AsyncNotifier<UserView?> {
   }
 
   Future<void> fetchUserData() async {
-    final current = state.valueOrNull;
     final userId = await UserStorage.instance.getUserId();
     if (userId == null || userId.isEmpty) {
       state = const AsyncData(null);
