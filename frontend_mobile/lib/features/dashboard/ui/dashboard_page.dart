@@ -82,7 +82,7 @@ class _MetricSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final items = MetricType.values;
+    const items = MetricType.values;
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -245,7 +245,7 @@ class _MiniChart extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  gridData: FlGridData(show: false),
+                  gridData: const FlGridData(show: false),
                   borderData: FlBorderData(show: false),
                   lineBarsData: [
                     LineChartBarData(

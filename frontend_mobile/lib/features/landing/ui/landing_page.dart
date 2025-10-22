@@ -109,7 +109,7 @@ class _HeroSection extends StatelessWidget {
           fit: StackFit.passthrough,
           children: [
             // overlay escuro
-            Positioned.fill(
+            const Positioned.fill(
               child: ColoredBox(color: Colors.black54),
             ),
 
@@ -149,7 +149,7 @@ class _HeroSection extends StatelessWidget {
                         'Aumente a eficiência, reduza custos e melhore seus resultados com soluções acessíveis e tecnologia de ponta.',
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              color: Colors.white.withOpacity(0.95),
+                              color: Colors.black.withValues(alpha: 0.95),
                             ),
                       ),
 
@@ -174,7 +174,7 @@ class _HeroSection extends StatelessWidget {
                                   shape: BoxShape.circle,
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.black.withOpacity(0.15),
+                                      color: Colors.black.withValues(alpha: 0.15),
                                       blurRadius: 12,
                                       offset: const Offset(0, 6),
                                     ),

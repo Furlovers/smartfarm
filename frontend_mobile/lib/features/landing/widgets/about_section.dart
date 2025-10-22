@@ -52,8 +52,8 @@ class AboutSection extends StatelessWidget {
           ),
           const SizedBox(height: 20),
 
-  Column(
-    children: const [
+  const Column(
+    children: [
     AboutCard(
       title: 'Monitoramento Preciso',
       description:

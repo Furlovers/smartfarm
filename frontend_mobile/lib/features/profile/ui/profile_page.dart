@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../auth/providers/user_providers.dart';
-import '../../auth/models/user_models.dart';
 import '../../../shared/widgets/error_box.dart';
 import '../../../shared/dialogs/confirmation_dialog.dart';
 
@@ -160,7 +159,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.06),
+                      color: Colors.black.withValues(alpha: 0.06),
                       blurRadius: 10,
                       offset: const Offset(0, 6),
                     ),
