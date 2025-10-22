@@ -12,10 +12,10 @@ class LoadingScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(
+            const SizedBox(
               width: 64,
               height: 64,
-              child: const CircularProgressIndicator(strokeWidth: 4),
+              child: CircularProgressIndicator(strokeWidth: 4),
             ),
             const SizedBox(height: 12),
             Text(

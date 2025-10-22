@@ -23,7 +23,7 @@ class LandingFooter extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [primary, primary.withOpacity(0.85)],
+          colors: [primary, primary.withValues(alpha:0.85)],
         ),
       ),
       child: Center(
@@ -44,7 +44,8 @@ class LandingFooter extends StatelessWidget {
                 'Comece hoje mesmo e veja os resultados em sua próxima colheita.',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: Colors.white.withOpacity(0.9),
+                      color: Colors.black.withValues(alpha: 0.9),
+
                     ),
               ),
               const SizedBox(height: 20),
@@ -69,7 +70,8 @@ class LandingFooter extends StatelessWidget {
                     style: OutlinedButton.styleFrom(
                       foregroundColor: Colors.white,
                       side: const BorderSide(color: Colors.white),
-                      backgroundColor: Colors.white.withOpacity(0.1),
+                      backgroundColor: Colors.black.withValues(alpha: 0.06),
+
                     ),
                   ),
                 ],
