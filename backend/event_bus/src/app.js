@@ -19,25 +19,25 @@ app.use("/event", async (req, res) => {
   const event = req.body;
   // User
   try {
-    await axios.post("http://localhost:31000/event", event);
+    await axios.post("http://user-mss:3000/event", event);
   } catch (e) {
     console.log(e);
   }
   //Sensor
   try {
-    await axios.post("http://localhost:31001/event", event);
+    await axios.post("http://sensor-mss:3001/event", event);
   } catch (e) {
     console.log(e);
   }
   //Leitura
   try {
-    await axios.post("http://localhost:31002/event", event);
+    await axios.post("http://reading-mss:3002/event", event);
   } catch (e) {
     console.log(e);
   }
   //View
   try {
-    await axios.post("http://localhost:31003/event", event);
+    await axios.post("http://view-mss:3003/event", event);
   } catch (e) {
     console.log(e);
   }
