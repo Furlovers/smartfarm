@@ -8,3 +8,9 @@ kubectl apply -f k8s/
 kubectl delete -f k8s/
 kubectl get pods  
 
+
+
+
+docker rm -f $(docker ps -aq)
+
+docker rmi -f $(docker images -aq)
