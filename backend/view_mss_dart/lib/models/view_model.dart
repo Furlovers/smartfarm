@@ -18,16 +18,17 @@ class Reading {
   });
 
   factory Reading.fromJson(Map<String, dynamic> json) {
-    return Reading(
-      readingId: json['readingId'],
-      battery: json['battery'],
-      temperature: json['temperature'],
-      humidity: json['humidity'],
-      pH: json['pH'],
-      luminosity: json['luminosity'],
-      createdAt: json['createdAt'],
-    );
-  }
+  return Reading(
+    readingId: json['readingId'],
+    battery: json['battery'],
+    temperature: json['temperature'],
+    humidity: json['humidity'],
+    pH: json['pH'],
+    luminosity: json['luminosity'],
+    createdAt: (json['createdAt'] as num).toInt(),
+  );
+}
+
 
   Map<String, dynamic> toJson() {
     return {
@@ -59,18 +60,19 @@ class Sensor {
     required this.readingList,
   });
 
-  factory Sensor.fromJson(Map<String, dynamic> json) {
-    return Sensor(
-      sensorId: json['sensorId'],
-      name: json['name'],
-      latitude: json['latitude'],
-      longitude: json['longitude'],
-      createdAt: json['createdAt'],
-      readingList: (json['readingList'] as List)
-          .map((item) => Reading.fromJson(item as Map<String, dynamic>))
-          .toList(),
-    );
-  }
+ factory Sensor.fromJson(Map<String, dynamic> json) {
+  return Sensor(
+    sensorId: json['sensorId'],
+    name: json['name'],
+    latitude: json['latitude'],
+    longitude: json['longitude'],
+    createdAt: (json['createdAt'] as num).toInt(),
+    readingList: (json['readingList'] as List)
+        .map((item) => Reading.fromJson(item as Map<String, dynamic>))
+        .toList(),
+  );
+}
+
 
   Map<String, dynamic> toJson() {
     return {
@@ -106,19 +108,20 @@ class View {
   });
 
   factory View.fromJson(Map<String, dynamic> json) {
-    return View(
-      userId: json['userId'],
-      name: json['name'],
-      email: json['email'],
-      password: json['password'],
-      role: json['role'] ?? 'user-basic',
-      address: json['address'],
-      dateOfJoining: json['dateOfJoining'],
-      sensorList: (json['sensorList'] as List)
-          .map((item) => Sensor.fromJson(item as Map<String, dynamic>))
-          .toList(),
-    );
-  }
+  return View(
+    userId: json['userId'],
+    name: json['name'],
+    email: json['email'],
+    password: json['password'],
+    role: json['role'] ?? 'user-basic',
+    address: json['address'],
+    dateOfJoining: (json['dateOfJoining'] as num).toInt(), // <-- converte
+    sensorList: (json['sensorList'] as List)
+        .map((item) => Sensor.fromJson(item as Map<String, dynamic>))
+        .toList(),
+  );
+}
+
 
   Map<String, dynamic> toJson() {
     return {
