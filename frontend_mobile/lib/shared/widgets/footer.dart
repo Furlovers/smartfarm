@@ -84,7 +84,7 @@ class LandingFooter extends StatelessWidget {
                   style: const TextStyle(color: Colors.white),
                 ),
               ),
-              const SizedBox(height: 8),
+              const SizedBox(height: 12),
             ],
           ),
         ),
