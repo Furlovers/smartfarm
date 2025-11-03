@@ -19,25 +19,25 @@ app.use("/event", async (req, res) => {
   const event = req.body;
   // User
   try {
-    await axios.post("https://smartfarm-user-mss-899314332d02.herokuapp.com/event", event);
+    await axios.post("http://localhost:31000/event", event);
   } catch (e) {
     console.log(e);
   }
   //Sensor
   try {
-    await axios.post("https://smartfarm-sensor-mss-60ba36d99b7f.herokuapp.com/event", event);
+    await axios.post("http://localhost:31001/event", event);
   } catch (e) {
     console.log(e);
   }
   //Leitura
   try {
-    await axios.post("https://smartfarm-reading-mss-ee062958e049.herokuapp.com/event", event);
+    await axios.post("http://localhost:31002/event", event);
   } catch (e) {
     console.log(e);
   }
   //View
   try {
-    await axios.post("https://smartfarm-view-mss-753d9b4258f1.herokuapp.com/event", event);
+    await axios.post("http://localhost:31003/event", event);
   } catch (e) {
     console.log(e);
   }
