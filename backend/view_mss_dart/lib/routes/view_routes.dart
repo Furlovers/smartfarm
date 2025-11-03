@@ -4,8 +4,8 @@ import 'package:shelf_router/shelf_router.dart';
 import '../services/view_service.dart' as service;
 
 final viewRoutes = Router()
-  ..get('/get_user_view/<userId>', _getUserView)
-  ..put('/update_reading/<userId>/<sensorId>/<readingId>', _updateReading);
+  ..get('/view/get_user_view/<userId>', _getUserView)
+  ..put('/view/update_reading/<userId>/<sensorId>/<readingId>', _updateReading);
 
 Future<Response> _getUserView(Request request, String userId) async {
   try {
