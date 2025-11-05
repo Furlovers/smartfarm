@@ -1,0 +1,4 @@
+flutter pub get
+flutter emulators --launch smartfarm
+flutter run
+flutter run -d chrome
