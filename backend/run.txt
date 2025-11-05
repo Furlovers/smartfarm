@@ -7,6 +7,7 @@ docker build -t view_mss:latest ./view_mss
 kubectl apply -f k8s/
 kubectl delete -f k8s/
 kubectl get pods  
+kubectl get services
 
 
 

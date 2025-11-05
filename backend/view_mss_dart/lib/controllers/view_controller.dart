@@ -5,7 +5,7 @@ import '../services/view_service.dart';
 Future<Response> getUserView(Request request, String userId) async {
   try {
     final userView = await viewService.getUserView(userId);
-    
+
     return Response.ok(
       jsonEncode(userView.toJson()),
       headers: {'content-type': 'application/json'},

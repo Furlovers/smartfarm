@@ -1,14 +1,14 @@
 const axios = require("axios");
 
 const SENSOR_IDS = [
-  "7967cda2-08e3-4d1f-9447-b263b454d4f5",
-  "24add7be-45e4-4fe8-b8dd-feb3710c7a6b",
+  "482c1499-6fe3-4ed4-950c-e0433eb66318",
+  "3725cef6-a625-4a7b-95ab-01c7f2fc6892",
 ];
 
 const AUTH_TOKEN =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRkZjllZGRiLTA3NDMtNGZiYy1iZDRjLTU3MGRjY2RlY2YwOSIsImVtYWlsIjoiZmF6ZW5kYXZhbmRlY29AZ21haWwuY29tIiwicm9sZSI6InVzZXItYmFzaWMiLCJpYXQiOjE3NDkyNTQ5OTAsImV4cCI6MTc0OTI1ODU5MH0.K0DFbVvWjL6WQ7GZ_GZ6zTOzY9wsoDhwh21pDYqrujg";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImUyMDg0YjY2LWM2OTQtNDQxNC05Nzg4LWY3NjQ4NGVkZjdkZSIsImVtYWlsIjoiZmF6ZW5kYWVwQGVtYWlsLmNvbSIsInJvbGUiOiJ1c2VyLWJhc2ljIiwiaWF0IjoxNzYyMjA1ODc0LCJleHAiOjE3NjIyMDk0NzR9.LNj8BmG8HiV5ZH86Z0s6jQuo-8N1REzfZcUYOO6Aud4";
 
-const API_URL = "https://smartfarm-reading-mss-ee062958e049.herokuapp.com/readings";
+const API_URL = "http://localhost:31002/readings";
 const NUM_READINGS = 20;
 const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 
