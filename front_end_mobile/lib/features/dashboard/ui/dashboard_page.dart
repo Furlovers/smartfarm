@@ -2,11 +2,13 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter/services.dart';
 
 import '../../auth/providers/user_providers.dart';
 import '../../auth/models/user_models.dart';
 import '../core/metrics.dart';
 import '../providers/dashboard_providers.dart';
+import '../../auth/providers/sensor_providers.dart';
 
 class DashboardPage extends ConsumerWidget {
   const DashboardPage({super.key});
@@ -45,6 +47,7 @@ class _DashboardContent extends ConsumerWidget {
           ),
         ],
       ),
+      floatingActionButton: const _AddSensorFab(), 
       body: RefreshIndicator(
         onRefresh: () async {
           await ref.read(userViewProvider.notifier).fetchUserData();
@@ -301,6 +304,198 @@ class _RecentReadings extends ConsumerWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _AddSensorFab extends ConsumerWidget {
+  const _AddSensorFab();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return FloatingActionButton(
+      tooltip: 'Adicionar sensor',
+      child: const Icon(Icons.add),
+      onPressed: () async {
+        final created = await showDialog<Sensor?>(
+          context: context,
+          builder: (_) => const _CreateSensorDialog(),
+        );
+
+        if (created != null) {
+          // seleciona automaticamente o novo sensor
+          ref.read(dashboardStateProvider.notifier).selectSensor(created.id);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Sensor criado com sucesso.')),
+          );
+        }
+      },
+    );
+  }
+}
+
+class _CreateSensorDialog extends ConsumerStatefulWidget {
+  const _CreateSensorDialog();
+
+  @override
+  ConsumerState<_CreateSensorDialog> createState() => _CreateSensorDialogState();
+}
+
+class _CreateSensorDialogState extends ConsumerState<_CreateSensorDialog> {
+  final _formKey = GlobalKey<FormState>();
+
+  final _nameCtrl = TextEditingController();
+  final _latCtrl  = TextEditingController();
+  final _lngCtrl  = TextEditingController();
+
+  bool _saving = false;
+  String? _error;
+
+  @override
+  void dispose() {
+    _nameCtrl.dispose();
+    _latCtrl.dispose();
+    _lngCtrl.dispose();
+    super.dispose();
+  }
+
+  double? _parseNullableDouble(String text) {
+    final t = text.trim();
+    if (t.isEmpty) return null;
+    // Suporta vírgula decimal
+    return double.tryParse(t.replaceAll(',', '.'));
+  }
+
+  String? _validateLat(String? v) {
+    if (v == null || v.trim().isEmpty) return null;
+    final d = _parseNullableDouble(v);
+    if (d == null) return 'Informe um número válido';
+    if (d < -90 || d > 90) return 'Latitude deve estar entre -90 e 90';
+    return null;
+  }
+
+  String? _validateLng(String? v) {
+    if (v == null || v.trim().isEmpty) return null;
+    final d = _parseNullableDouble(v);
+    if (d == null) return 'Informe um número válido';
+    if (d < -180 || d > 180) return 'Longitude deve estar entre -180 e 180';
+    return null;
+  }
+
+  Future<void> _submit() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() {
+      _saving = true;
+      _error = null;
+    });
+
+    try {
+      final lat = _parseNullableDouble(_latCtrl.text);
+      final lng = _parseNullableDouble(_lngCtrl.text);
+
+      final payload = <String, dynamic>{
+        'name': _nameCtrl.text.trim(),
+        if (lat != null) 'latitude': lat,
+        if (lng != null) 'longitude': lng,
+      };
+
+      await ref.read(sensorListProvider.notifier).createSensor(payload);
+
+      await ref.read(userViewProvider.notifier).fetchUserData();
+
+      final updatedView = ref.read(userViewDataProvider);
+      final newSensor = (updatedView?.sensorList.isNotEmpty ?? false)
+          ? updatedView!.sensorList.last
+          : null;
+
+      if (!mounted) return;
+      Navigator.of(context).pop(newSensor);
+    } catch (e) {
+      setState(() => _error = e.toString().replaceFirst('Exception: ', ''));
+    } finally {
+      if (mounted) setState(() => _saving = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Novo sensor'),
+      content: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextFormField(
+              controller: _nameCtrl,
+              decoration: const InputDecoration(
+                labelText: 'Nome do sensor *',
+                hintText: 'Ex.: Sensor A',
+              ),
+              validator: (v) =>
+                  (v == null || v.trim().isEmpty) ? 'Informe um nome' : null,
+              textInputAction: TextInputAction.next,
+            ),
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    controller: _latCtrl,
+                    decoration: const InputDecoration(
+                      labelText: 'Latitude (opcional)',
+                      helperText: '-90 a 90',
+                    ),
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true, signed: true),
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'^-?\d*[,\.]?\d{0,6}$')),
+                    ],
+                    validator: _validateLat,
+                    textInputAction: TextInputAction.next,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: TextFormField(
+                    controller: _lngCtrl,
+                    decoration: const InputDecoration(
+                      labelText: 'Longitude (opcional)',
+                      helperText: '-180 a 180',
+                    ),
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true, signed: true),
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'^-?\d*[,\.]?\d{0,6}$')),
+                    ],
+                    validator: _validateLng,
+                    textInputAction: TextInputAction.done,
+                    onFieldSubmitted: (_) => _submit(),
+                  ),
+                ),
+              ],
+            ),
+            if (_error != null) ...[
+              const SizedBox(height: 12),
+              Text(_error!, style: const TextStyle(color: Colors.red)),
+            ],
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: _saving ? null : () => Navigator.of(context).pop(),
+          child: const Text('Cancelar'),
+        ),
+        ElevatedButton(
+          onPressed: _saving ? null : _submit,
+          child: _saving
+              ? const SizedBox(
+                  height: 16, width: 16, child: CircularProgressIndicator(strokeWidth: 2))
+              : const Text('Criar'),
+        ),
+      ],
     );
   }
 }

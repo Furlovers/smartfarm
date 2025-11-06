@@ -32,16 +32,19 @@ final userViewDataProvider = Provider<UserView?>((ref) {
   return ref.watch(userViewProvider).valueOrNull;
 });
 
-// Sensor selecionado
 final selectedSensorProvider = Provider<Sensor?>((ref) {
   final view = ref.watch(userViewDataProvider);
   final id = ref.watch(dashboardStateProvider.select((s) => s.selectedSensorId));
-  return view?.sensorList.firstWhere(
-    (s) => s.id == id,
-    // ignore: cast_from_null_always_fails
-    orElse: () => (view.sensorList.isNotEmpty) ? view.sensorList.first : (null as Sensor),
-  );
+  final sensors = view?.sensorList ?? const <Sensor>[];
+
+  if (sensors.isEmpty || id == null) return null;
+
+  for (final s in sensors) {
+    if (s.id == id) return s;
+  }
+  return null;
 });
+
 
 final last24hReadingsProvider = Provider<List<Reading>>((ref) {
   final sensor = ref.watch(selectedSensorProvider);
