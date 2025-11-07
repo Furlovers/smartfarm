@@ -67,7 +67,6 @@ class ProductCard extends StatelessWidget {
                   ),
                 )),
 
-            // ⛔️ REMOVIDO: Spacer()
             const SizedBox(height: 16),
 
             SizedBox(

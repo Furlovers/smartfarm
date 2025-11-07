@@ -25,13 +25,6 @@ export function UserProvider({ children }) {
       fetchUserData();
     }
 
-    // ## Caso queira utilizar token em conjunto com o back
-    // const token = localStorage.getItem('token')
-    // if(token) {
-    //     fetchUserData()
-    // } else {
-    //     setLoading(false)
-    // }
   }, []);
 
   const fetchUserData = async () => {
@@ -99,10 +92,6 @@ export function UserProvider({ children }) {
   };
 
   const logout = () => {
-    // Se for implementar token
-    // localStorage.removeItem('token')]
-    // delete api.defaults.headers.common['Authorization']
-
     setUserData(null);
     navigate("/");
   };

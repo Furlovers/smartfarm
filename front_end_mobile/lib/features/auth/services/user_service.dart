@@ -7,7 +7,6 @@ class UserService {
   UserService._();
   static final instance = UserService._();
 
-  // POST /login
   Future<AuthResponse> login({
     required String email,
     required String password,
@@ -22,19 +21,16 @@ class UserService {
     return auth;
   }
 
-  // POST /register
   Future<Map<String, dynamic>> register(Map<String, dynamic> payload) async {
     final res = await userApi.post('/register', data: payload);
     return Map<String, dynamic>.from(res.data);
   }
 
-  // GET /get_user_view/:userId
   Future<UserView> fetchUserView(String userId) async {
     final res = await viewApi.get('/get_user_view/$userId');
     return UserView.fromJson(Map<String, dynamic>.from(res.data));
   }
 
-  // PUT /:userId
   Future<UserView> updateProfile(String userId, Map<String, dynamic> payload) async {
     final res = await userApi.put('/$userId', data: payload);
 
@@ -46,7 +42,6 @@ class UserService {
     }
   }
 
-  // DELETE /:userId
   Future<void> deleteUser(String userId) async {
     await userApi.delete('/$userId');
     await logout();

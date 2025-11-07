@@ -1,5 +1,5 @@
 import { GiFarmTractor, GiWaterDrop } from "react-icons/gi";
-import { FaRobot } from "react-icons/fa"; // Para destacar IA no Premium
+import { FaRobot } from "react-icons/fa"; 
 
 export const productTiers = [
   {

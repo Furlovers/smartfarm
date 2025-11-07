@@ -12,7 +12,7 @@ class AboutSection extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 24, 16, 24),
       child: Column(
         children: [
-          // badge + título + subtítulo
+
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(

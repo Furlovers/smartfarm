@@ -12,7 +12,6 @@ class ServicesSection extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 24, 16, 0),
       child: Column(
         children: [
-          // header
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: BoxDecoration(
@@ -52,7 +51,6 @@ class ServicesSection extends StatelessWidget {
           ),
           const SizedBox(height: 20),
 
-          // grid principal (no mobile: cards empilhados)
           ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -71,15 +69,13 @@ class ServicesSection extends StatelessWidget {
 
           const SizedBox(height: 24),
 
-          // bloco cinza com vantagens (additionalServices)
           Container(
             width: double.infinity,
-            color: const Color(0xFFF3F4F6), // gray-100
+            color: const Color(0xFFF3F4F6), 
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // badge "VANTAGENS"
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 6),

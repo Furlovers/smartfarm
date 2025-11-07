@@ -76,7 +76,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
         'name': '${nameCtrl.text.trim()} ${surnameCtrl.text.trim()}',
         'address': '',
       });
-      // volta para login
+
       setState(() {
         isLogin = true;
         errorMessage = null;
@@ -224,7 +224,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ],
                   ),
 
-                  // Erro
+
                   if (errorMessage != null && errorMessage!.isNotEmpty) ...[
                     const SizedBox(height: 12),
                     ErrorBox(message: errorMessage),

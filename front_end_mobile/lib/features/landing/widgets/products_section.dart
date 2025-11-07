@@ -52,7 +52,6 @@ class ProductsSection extends StatelessWidget {
           ),
           const SizedBox(height: 16),
 
-          // no mobile: cards empilhados
           ListView.separated(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),

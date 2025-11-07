@@ -118,7 +118,7 @@ final userErrorProvider = Provider<String?>((ref) {
   return state.hasError ? state.error.toString() : null;
 });
 
-// ---- Filtros do Dashboard ----
+
 final dashboardFilterProvider =
     NotifierProvider<DashboardFilterController, DashboardFilter?>(DashboardFilterController.new);
 

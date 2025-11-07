@@ -54,7 +54,7 @@ class AboutCard extends StatelessWidget {
               description,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: const Color(0xFF6B7280), // gray-500/600
+                    color: const Color(0xFF6B7280), 
                   ),
             ),
           ],

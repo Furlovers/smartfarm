@@ -1,4 +1,4 @@
-// lib/features/landing/ui/landing_page.dart
+
 import 'package:flutter/material.dart';
 import '../../../shared/widgets/nav_landing_mobile.dart';
 import '../../../shared/widgets/footer.dart';
@@ -20,7 +20,6 @@ class _LandingPageState extends State<LandingPage> {
   final listKey = GlobalKey();
   final scroll = ScrollController();
 
-  // função para controlar o scroll pela navbar
   void _scrollTo(GlobalKey key) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final sectionCtx = key.currentContext;

@@ -25,7 +25,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   @override
   void initState() {
     super.initState();
-    // garante dados atualizados
     Future.microtask(() => ref.read(userViewProvider.notifier).fetchUserData());
   }
 
@@ -117,7 +116,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         if (view == null) {
           return const Scaffold(body: Center(child: Text('Faça login para acessar o perfil.')));
         }
-        // inicializa os campos uma única vez quando os dados chegam
         if (!_initialized) {
           nameCtrl.text = view.name ?? '';
           emailCtrl.text = view.email ?? '';
@@ -145,7 +143,6 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
           body: ListView(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
             children: [
-              // Header com faixa azul + avatar sobreposto + nome/role/data
               Container(
                 decoration: const BoxDecoration(
                   color: Color(0xFF0B1B52), // azul
@@ -169,7 +166,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
                 child: Column(
                   children: [
-                    // avatar circular
+
                     Positioned.fill(
                       child: Align(
                         alignment: Alignment.topCenter,

@@ -7,7 +7,6 @@ class HttpClientFactory {
   HttpClientFactory._();
   static final instance = HttpClientFactory._();
 
-  // Cria uma instância do Dio configurada
   Dio create({required String baseUrl}) {
     final dio = Dio(
       BaseOptions(
@@ -21,7 +20,6 @@ class HttpClientFactory {
       ),
     );
 
-    // Interceptor para adicionar token de autenticação em cada requisição
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
@@ -36,7 +34,6 @@ class HttpClientFactory {
       ),
     );
 
-  // Recebe a mensagem de erro do backend
   dio.interceptors.add(
   InterceptorsWrapper(
     onError: (e, handler) {
