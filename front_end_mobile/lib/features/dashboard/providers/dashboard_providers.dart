@@ -71,7 +71,7 @@ class MetricStats {
 
 final metricStatsProvider = Provider<MetricStats>((ref) {
   final metric = ref.watch(dashboardStateProvider.select((s) => s.metric));
-  final reads = ref.watch(lastNReadingsProvider(10)); // << aqui muda
+  final reads = ref.watch(lastNReadingsProvider(10));
   if (reads.isEmpty) return const MetricStats();
 
   final vals = reads.map((r) => valueFor(r, metric)!).toList();

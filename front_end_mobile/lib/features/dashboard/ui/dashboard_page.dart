@@ -372,7 +372,6 @@ class _CreateSensorDialogState extends ConsumerState<_CreateSensorDialog> {
   double? _parseNullableDouble(String text) {
     final t = text.trim();
     if (t.isEmpty) return null;
-    // Suporta vírgula decimal
     return double.tryParse(t.replaceAll(',', '.'));
   }
 
@@ -440,8 +439,7 @@ class _CreateSensorDialogState extends ConsumerState<_CreateSensorDialog> {
             TextFormField(
               controller: _nameCtrl,
               decoration: const InputDecoration(
-                labelText: 'Nome do sensor *',
-                hintText: 'Ex.: Sensor A',
+                labelText: 'Nome do sensor',
               ),
               validator: (v) =>
                   (v == null || v.trim().isEmpty) ? 'Informe um nome' : null,
@@ -454,8 +452,7 @@ class _CreateSensorDialogState extends ConsumerState<_CreateSensorDialog> {
                   child: TextFormField(
                     controller: _latCtrl,
                     decoration: const InputDecoration(
-                      labelText: 'Latitude (opcional)',
-                      helperText: '-90 a 90',
+                      labelText: 'Latitude',
                     ),
                     keyboardType: const TextInputType.numberWithOptions(
                       decimal: true, signed: true),
@@ -471,8 +468,7 @@ class _CreateSensorDialogState extends ConsumerState<_CreateSensorDialog> {
                   child: TextFormField(
                     controller: _lngCtrl,
                     decoration: const InputDecoration(
-                      labelText: 'Longitude (opcional)',
-                      helperText: '-180 a 180',
+                      labelText: 'Longitude',
                     ),
                     keyboardType: const TextInputType.numberWithOptions(
                       decimal: true, signed: true),
