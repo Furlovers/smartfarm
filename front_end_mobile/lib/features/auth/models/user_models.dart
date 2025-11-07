@@ -1,33 +1,60 @@
 class Reading {
-  final String id;
   final DateTime timestamp;
-  final double? ph;
   final double? temperature;
   final double? humidity;
   final double? luminosity;
+  final double? ph;
 
   Reading({
-    required this.id,
     required this.timestamp,
-    this.ph,
     this.temperature,
     this.humidity,
     this.luminosity,
+    this.ph,
   });
 
-  factory Reading.fromJson(Map<String, dynamic> json) => Reading(
-        id: (json['id'] ?? json['_id'] ?? '').toString(),
-        timestamp: DateTime.tryParse(json['timestamp']?.toString() ?? '') ??
-            DateTime.fromMillisecondsSinceEpoch(
-              (json['ts'] ?? json['time'] ?? DateTime.now().millisecondsSinceEpoch),
-              isUtc: false,
-            ),
-        ph: (json['ph'] as num?)?.toDouble(),
-        temperature: (json['temperature'] as num?)?.toDouble(),
-        humidity: (json['humidity'] as num?)?.toDouble(),
-        luminosity: (json['luminosity'] as num?)?.toDouble(),
-      );
+  factory Reading.fromJson(Map<String, dynamic> json) {
+    final ts = _parseTimestamp(
+      json['timestamp'] ?? json['ts'] ?? json['createdAt'] ?? json['date'],
+    );
+
+    return Reading(
+      timestamp: ts,
+      temperature: (json['temperature'] as num?)?.toDouble(),
+      humidity: (json['humidity'] as num?)?.toDouble(),
+      luminosity: (json['luminosity'] as num?)?.toDouble(),
+      ph: (json['ph'] as num?)?.toDouble(),
+    );
+  }
+
+  static DateTime _parseTimestamp(dynamic v) {
+    if (v == null) {
+      return DateTime.fromMillisecondsSinceEpoch(0, isUtc: true);
+    }
+    if (v is int) {
+      final ms = v < 1000000000000 ? v * 1000 : v;
+      return DateTime.fromMillisecondsSinceEpoch(ms, isUtc: true);
+    }
+    if (v is num) {
+      final iv = v.toInt();
+      final ms = iv < 1000000000000 ? iv * 1000 : iv;
+      return DateTime.fromMillisecondsSinceEpoch(ms, isUtc: true);
+    }
+    if (v is String) {
+      final asInt = int.tryParse(v);
+      if (asInt != null) {
+        final ms = asInt < 1000000000000 ? asInt * 1000 : asInt;
+        return DateTime.fromMillisecondsSinceEpoch(ms, isUtc: true);
+      }
+      final parsed = DateTime.tryParse(v);
+      if (parsed != null) {
+        return parsed.isUtc ? parsed : parsed.toUtc();
+      }
+    }
+    return DateTime.fromMillisecondsSinceEpoch(0, isUtc: true);
+  }
 }
+
 
 class Sensor {
   final String id;

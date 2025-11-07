@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+
 import '../../auth/models/user_models.dart';
 import '../../auth/providers/user_providers.dart';
 import '../core/metrics.dart';
@@ -45,6 +46,7 @@ final selectedSensorProvider = Provider<Sensor?>((ref) {
   return null;
 });
 
+final recentTimeFormatterProvider = Provider<DateFormat>((_) => DateFormat('dd/MM HH:mm:ss'));
 
 final last24hReadingsProvider = Provider<List<Reading>>((ref) {
   final sensor = ref.watch(selectedSensorProvider);
@@ -69,16 +71,30 @@ class MetricStats {
 
 final metricStatsProvider = Provider<MetricStats>((ref) {
   final metric = ref.watch(dashboardStateProvider.select((s) => s.metric));
-  final reads = ref.watch(last24hReadingsProvider);
+  final reads = ref.watch(lastNReadingsProvider(10)); // << aqui muda
   if (reads.isEmpty) return const MetricStats();
 
-  double? last = valueFor(reads.last, metric);
   final vals = reads.map((r) => valueFor(r, metric)!).toList();
-  final sum = vals.fold<double>(0, (a, b) => a + b);
-  final avg = vals.isNotEmpty ? (sum / vals.length) : null;
+  final current = vals.last;
+  final avg = vals.reduce((a, b) => a + b) / vals.length;
   final min = vals.reduce((a, b) => a < b ? a : b);
   final max = vals.reduce((a, b) => a > b ? a : b);
-  return MetricStats(current: last, avg: avg, min: min, max: max);
+  return MetricStats(current: current, avg: avg, min: min, max: max);
 });
 
+
 final timeFormatterProvider = Provider<DateFormat>((_) => DateFormat.Hm());
+
+final lastNReadingsProvider = Provider.family<List<Reading>, int>((ref, n) {
+  final sensor = ref.watch(selectedSensorProvider);
+  final metric = ref.watch(dashboardStateProvider.select((s) => s.metric));
+  if (sensor == null || sensor.readingList.isEmpty) return const <Reading>[];
+
+  final all = sensor.readingList
+      .where((r) => valueFor(r, metric) != null)
+      .toList()
+    ..sort((a, b) => a.timestamp.compareTo(b.timestamp));
+
+  final start = (all.length - n).clamp(0, all.length);
+  return all.sublist(start);
+});

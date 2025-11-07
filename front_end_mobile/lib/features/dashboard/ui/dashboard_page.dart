@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 import '../../auth/providers/user_providers.dart';
 import '../../auth/models/user_models.dart';
@@ -158,7 +159,7 @@ class _StatCardsRow extends ConsumerWidget {
       children: [
         Expanded(child: _StatCard(label: 'Atual', value: fmt(stats.current), icon: info.icon)),
         const SizedBox(width: 8),
-        Expanded(child: _StatCard(label: 'Média 24h', value: fmt(stats.avg), icon: Icons.trending_flat)),
+        Expanded(child: _StatCard(label: 'Méd 24h', value: fmt(stats.avg), icon: Icons.trending_flat)),
         const SizedBox(width: 8),
         Expanded(child: _StatCard(label: 'Mín 24h', value: fmt(stats.min), icon: Icons.south)),
         const SizedBox(width: 8),
@@ -201,70 +202,78 @@ class _MiniChart extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final metric = ref.watch(dashboardStateProvider.select((s) => s.metric));
     final info = metricInfo[metric]!;
-    final reads = ref.watch(last24hReadingsProvider);
+    final reads = ref.watch(lastNReadingsProvider(10)); // << aqui
 
-    if (reads.isEmpty) {
-      return Card(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Text('Sem dados nas últimas 24h para ${info.label}.'),
-        ),
-      );
-    }
+  if (reads.isEmpty) {
+   return Card(
+    child: Padding(
+      padding: const EdgeInsets.all(16),
+      child: Text('Sem dados nas últimas 24h para ${info.label}.'),
+    ),
+  );
+}
 
-    final firstTs = reads.first.timestamp.millisecondsSinceEpoch.toDouble();
-    final spots = reads
-        .map((r) => FlSpot(
-              (r.timestamp.millisecondsSinceEpoch.toDouble() - firstTs) / 3600000.0, // horas desde o início
-              valueFor(r, metric)!,
-            ))
-        .toList();
+final spots = <FlSpot>[];
+for (var i = 0; i < reads.length; i++) {
+  final y = valueFor(reads[i], metric)!;
+  spots.add(FlSpot((i + 1).toDouble(), y));
+}
 
-    return Card(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(12, 16, 12, 8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('${info.label} — últimas 24h', style: Theme.of(context).textTheme.titleMedium),
-            const SizedBox(height: 8),
-            SizedBox(
-              height: 160,
-              child: LineChart(
-                LineChartData(
-                  titlesData: FlTitlesData(
-                    leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                    topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                    rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                    bottomTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        reservedSize: 22,
-                        interval: 6, // de 6 em 6 horas
-                        getTitlesWidget: (v, meta) => Padding(
-                          padding: const EdgeInsets.only(top: 6),
-                          child: Text('${v.toInt()}h', style: const TextStyle(fontSize: 10)),
-                        ),
-                      ),
-                    ),
-                  ),
-                  gridData: const FlGridData(show: false),
-                  borderData: FlBorderData(show: false),
-                  lineBarsData: [
-                    LineChartBarData(
-                      spots: spots,
-                      isCurved: true,
-                      dotData: const FlDotData(show: false),
-                      belowBarData: BarAreaData(show: true, applyCutOffY: false),
-                    ),
-                  ],
-                ),
-              ),
+
+final minX = reads.first.timestamp.millisecondsSinceEpoch.toDouble();
+final maxX = reads.last.timestamp.millisecondsSinceEpoch.toDouble();
+final sixHours = const Duration(hours: 6).inMilliseconds.toDouble();
+
+return Card(
+  child: Padding(
+    padding: const EdgeInsets.fromLTRB(12, 16, 12, 8),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('${info.label} — últimas 10 leituras',  // << título
+    style: Theme.of(context).textTheme.titleMedium),
+
+SizedBox(
+  height: 160,
+  child: LineChart(
+    LineChartData(
+      minX: 1,
+      maxX: reads.length.toDouble(),
+      titlesData: FlTitlesData(
+        leftTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 22,
+            interval: 1, // 1..10
+            getTitlesWidget: (v, meta) => Padding(
+              padding: const EdgeInsets.only(top: 6),
+              child: Text(v.toInt().toString(), style: const TextStyle(fontSize: 10)),
             ),
-          ],
+          ),
         ),
       ),
-    );
+      gridData: const FlGridData(show: false),
+      borderData: FlBorderData(show: false),
+      lineBarsData: [
+        LineChartBarData(
+          spots: spots,
+          isCurved: true,
+          dotData: const FlDotData(show: false),
+          belowBarData: BarAreaData(show: true),
+        ),
+      ],
+    ),
+  ),
+),
+
+      ],
+    ),
+  ),
+);
+
   }
 }
 
@@ -275,8 +284,9 @@ class _RecentReadings extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final metric = ref.watch(dashboardStateProvider.select((s) => s.metric));
     final info = metricInfo[metric]!;
-    final reads = ref.watch(last24hReadingsProvider).reversed.take(10).toList();
-    final fmt = ref.watch(timeFormatterProvider);
+    final reads = ref.watch(lastNReadingsProvider(10)).reversed.toList();
+
+    final fmt = ref.watch(recentTimeFormatterProvider);
 
     if (reads.isEmpty) return const SizedBox.shrink();
 
@@ -296,7 +306,7 @@ class _RecentReadings extends ConsumerWidget {
                     children: [
                       Icon(info.icon, size: 16),
                       const SizedBox(width: 8),
-                      Expanded(child: Text(fmt.format(r.timestamp))),
+                      Expanded(child: Text(fmt.format(r.timestamp.toLocal()))),
                       Text(fmtVal(valueFor(r, metric))),
                     ],
                   ),
