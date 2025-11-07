@@ -1,4 +1,3 @@
-// lib/features/profile/ui/profile_page.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -64,7 +63,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 
   String _memberSince(DateTime? dt) {
     if (dt == null) return '—';
-    return DateFormat('dd/MM/yyyy').format(dt);
+    return DateFormat('dd/MM/yyyy').format(dt.toLocal());
   }
 
   Future<void> _save() async {

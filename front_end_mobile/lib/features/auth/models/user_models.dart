@@ -109,10 +109,39 @@ class UserView {
             .map<Sensor>((e) => Sensor.fromJson(Map<String, dynamic>.from(e)))
             .toList(),
         address: json['address']?.toString(),
-        dateOfJoining: DateTime.tryParse(json['dateOfJoining']?.toString() ?? ''),
+        dateOfJoining: _parseNullableTimestamp(
+          json['dateOfJoining'] ?? json['joinedAt'] ?? json['createdAt'] ?? json['date'],
+        ),
         role: (json['role'] ?? '').toString(),
       );
+
+  static DateTime? _parseNullableTimestamp(dynamic v) {
+    if (v == null) return null;
+
+    if (v is int) {
+      final ms = v < 1000000000000 ? v * 1000 : v;
+      return DateTime.fromMillisecondsSinceEpoch(ms, isUtc: true);
+    }
+    if (v is num) {
+      final iv = v.toInt();
+      final ms = iv < 1000000000000 ? iv * 1000 : iv;
+      return DateTime.fromMillisecondsSinceEpoch(ms, isUtc: true);
+    }
+    if (v is String) {
+      final asInt = int.tryParse(v);
+      if (asInt != null) {
+        final ms = asInt < 1000000000000 ? asInt * 1000 : asInt;
+        return DateTime.fromMillisecondsSinceEpoch(ms, isUtc: true);
+      }
+      final parsed = DateTime.tryParse(v);
+      if (parsed != null) {
+        return parsed.isUtc ? parsed : parsed.toUtc();
+      }
+    }
+    return null;
+  }
 }
+
 
 class AuthResponse {
   final String token;
